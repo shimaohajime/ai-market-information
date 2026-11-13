@@ -1,4 +1,4 @@
-"""Independent covariance-matrix implementation of the prior Step 02 witness.
+"""Independent covariance-matrix implementation of the market witness.
 
 The old script directly wrote scalar covariances. Here each inherited Gaussian
 market law is represented by a measurement matrix and noise covariance. Heads

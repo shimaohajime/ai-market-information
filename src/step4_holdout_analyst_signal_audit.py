@@ -1,7 +1,6 @@
-"""Pre-API audit for a point-in-time public analyst-revision signal.
+"""Pre-API audit for a point-in-time public analyst-revision signal in E2.
 
-This is a separate, frozen treatment after the raw-price public-signal gate
-failed. It uses only I/B/E/S summary records publicly available on or before
+This audit uses only I/B/E/S summary records publicly available on or before
 each formation date. The target, identifiers, dates, and raw estimates remain
 local; only aggregate audit results are released.
 """
@@ -324,7 +323,7 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
     }
     (output / "step4_holdout_analyst_signal_audit_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     report = "\n".join([
-        "# Step 4 holdout analyst-signal audit",
+        "# E2 analyst-signal audit",
         "",
         "This is a non-LLM pre-API gate for a new, separately specified public analyst-revision treatment.",
         "",

@@ -1,4 +1,4 @@
-"""Estimate the Step 2 signal decomposition in one linearly independent basis.
+"""Estimate the E1 event-time signal decomposition in one independent basis.
 
 The four displayed increments are not four independent sources of evidence:
 
@@ -181,7 +181,7 @@ def estimate_panel(panel: Path, sample_flag: str | None, sample_name: str, lower
 def write_report(table: pd.DataFrame, check: pd.DataFrame, output: Path) -> None:
     show = table.loc[table.display.ne("high-model residual")].copy()
     report = [
-        "# Step 2 integrated signal decomposition",
+        "# E1 integrated signal decomposition",
         "",
         "The primary CAR[0,+1] model is estimated jointly as `CAR = beta*u_H1 + theta_L*p_L + theta_H*p_H + theta_Q*q_H_public + controls + event-date FE`. "
         "It uses two-way PERMNO/event-date clustered standard errors. `q_H_post` is shown through the exact equivalent basis, rather than counted as a fourth independent signal.",

@@ -176,7 +176,7 @@ def sequencing_diagnostics(frame: pd.DataFrame, sample_name: str) -> pd.DataFram
 
 def write_report(results: pd.DataFrame, diagnostics: pd.DataFrame, output: Path) -> None:
     report = [
-        "# Step 2 earnings-persistence diagnostic",
+        "# E1 earnings-persistence diagnostic",
         "",
         "For each current event t, this diagnostic links the pre-announcement high-compute increment to observed standardized earnings surprises at t through t+4. "
         "Successive announcements must be 45--180 days apart. It reports both formation-date FE and the more stringent firm-plus-formation-date FE specification, with two-way PERMNO/formation-date clustered standard errors.",

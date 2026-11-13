@@ -1,4 +1,4 @@
-"""Build time-safe Task 1--2 inputs for the Step 4 mechanism experiment.
+"""Build time-safe inputs for the E2 controlled behavior experiment.
 
 This script makes no model or network call.  It creates a matched-placebo
 anonymous price path for each of the existing twenty development dossiers,
@@ -37,7 +37,7 @@ def stable_hash(value: str) -> int:
 def scalar(value: float, digits: int = 4) -> float:
     numeric = float(value)
     if not math.isfinite(numeric):
-        raise ValueError("Task 1--2 construction encountered a non-finite price value.")
+        raise ValueError("E2 construction encountered a non-finite price value.")
     return round(numeric, digits)
 
 
@@ -242,7 +242,7 @@ def build(config: dict[str, Any]) -> dict[str, Any]:
     source_dossiers = {item["dossier_id"]: item for item in read_jsonl(source_root / "step4_price_v2_dossiers.jsonl")}
     candidates = pd.read_parquet(resolve_repo_path(config["source_candidate_key"]))
     if len(source_dossiers) != len(candidates) or set(source_dossiers) != set(candidates.dossier_id.astype(str)):
-        raise ValueError("Task 1--2 source dossiers and candidate key are not aligned.")
+        raise ValueError("E2 source dossiers and candidate key are not aligned.")
     candidates = candidates.copy()
     candidates["dossier_id"] = candidates.dossier_id.astype(str)
     mapping = choose_donors(candidates, source_dossiers, config)
@@ -261,12 +261,12 @@ def build(config: dict[str, Any]) -> dict[str, Any]:
             "informative_price_information": price_without_summary(source["rich_price_information"]),
             "matched_placebo_price_information": placebo_by_target[dossier_id],
         }
-        verify_no_prohibited(payload, f"Task 1--2 dossier {dossier_id}")
+        verify_no_prohibited(payload, f"E2 dossier {dossier_id}")
         built.append(payload)
     checks = build_checks({item["dossier_id"]: item for item in built})
     outcome_key = candidates[["dossier_id", "theta_ex_ante", "next_sue", "formation_date", "next_announcement_date"]].copy()
     if outcome_key.theta_ex_ante.isna().any():
-        raise ValueError("Task 1 public-only evaluation key has a missing held-out target.")
+        raise ValueError("E2 public-only evaluation key has a missing held-out target.")
 
     interim = resolve_repo_path(config["interim_root"])
     output = resolve_repo_path(config["output_root"])

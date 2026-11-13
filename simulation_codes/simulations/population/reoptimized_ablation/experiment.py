@@ -1,4 +1,4 @@
-"""Task 3.8: independently reoptimized mean-only/risk-only/both heads.
+"""Independently reoptimized mean-only, risk-only, and joint heads.
 
 All comparisons within a cell share frozen inherited Q0 training/evaluation laws.
 Each restrictive training arm optimizes its own Gaussian NLL, holding the

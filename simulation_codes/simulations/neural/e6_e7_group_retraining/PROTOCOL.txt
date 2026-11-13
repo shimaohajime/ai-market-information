@@ -89,8 +89,7 @@ Check identical round-0 profiles across all arms, exact freezing of disabled
 groups, first-update equivalence of corresponding permitted fits, no change
 during data generation, generation before learning, saved-next/deployed-next
 continuity, positive clearing slope, clearing residual, initial-price coupling,
-all E7 identities and all E6 factorial/control identities. Initial high/low
-models and accepted manuscript files remain unchanged.
+all E7 identities and all E6 factorial/control identities.
 
 Interaction diagnostic: J=A^2/supply_variance is nonlinear. For each x,n,
 write a0,a1,a2,ab for aggregate A in the four arms. The J interaction is

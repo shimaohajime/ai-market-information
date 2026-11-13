@@ -125,7 +125,7 @@ for a,b in [('Economy','Eight public coordinates; nonlinear noisy cubic releases
 tab(rows,[108,382])
 p(f"<b>Validation.</b> Six engine tests pass. All {validation['complete_deployed_states']} deployed states pass the generation-before-learning and exact checkpoint-continuity audit. Maximum clearing residual: {validation['max_clearing_error']:.2e}; maximum retained initial-price coupling error: {validation['max_initial_price_coupling_error']:.2e}; minimum clearing slope: {validation['minimum_clearing_slope']:.4f}. Reference source and inherited initial-model hashes remain unchanged.")
 p('The archive contains source code, configurations, every continued checkpoint, all audit fits, the three candidate baseline profiles, CSV summaries, status JSON, plots and this report. E5_PROTOCOL.txt records the diagnostics; BASELINE_STATUS.json records their outcomes. run.py resumes completed stages. Re-run analyze.py, summarize_e5.py and make_report_e5.py to reconstruct the summaries and report.',True)
-p('Scope: finite-sample, finite-optimization evidence under three inherited initial seeds. No claim of a population retraining fixed point, global stability, equilibrium uniqueness, mutual-information change, or welfare improvement. Accepted manuscript sections are unchanged.',True)
+p('Scope: finite-sample, finite-optimization evidence under three inherited initial seeds. No claim of a population retraining fixed point, global stability, equilibrium uniqueness, mutual-information change, or welfare improvement.',True)
 
 def footer(c,doc):
  c.setFont('E5Sans',8);c.setFillColor(colors.HexColor('#6d7b85'));c.drawString(48,29,'AI-market-Science | E5 continuation | 29 October 2026');c.drawRightString(547,29,str(doc.page))

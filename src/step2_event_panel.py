@@ -1,15 +1,16 @@
-"""Prepare the Step 2 earnings-announcement event panel.
+"""Prepare the E1 earnings-announcement event panel.
 
-Step 1 measures the predictive contribution of a contemporaneous price under
-simulated low- and high-compute technologies.  Step 2 asks a complementary,
-event-time question: how much earnings news is reflected in returns once that
-price has formed?  This runner joins each out-of-sample Step 1 observation to
+The public-data forecast comparison measures the predictive contribution of a
+contemporaneous price under simulated limited and richer processors. This
+event-time analysis asks how much earnings news is reflected in returns once
+that price has formed. This runner joins each out-of-sample forecast observation to
 the first CRSP trading date on or after its I/B/E/S announcement date.
 
 I/B/E/S Summary contains dates but no release timestamps.  Consequently, the
 primary return is market-adjusted CAR[0,+1], which captures a same-day or
 after-market reaction without pretending to know the announcement time.
-The output is a data-preparation artifact, not an AI-adoption or causal test.
+The output supports a counterfactual processing comparison, not an AI-adoption
+or causal test.
 """
 
 from __future__ import annotations
@@ -39,10 +40,10 @@ def sql_path(path: Path) -> str:
 
 
 def prepare_events(scores_path: Path, event_start: pd.Timestamp, event_end: pd.Timestamp) -> pd.DataFrame:
-    """Keep one time-safe, OOS Step 1 row for every earnings event."""
+    """Keep one time-safe E1 forecast row for every earnings event."""
     if not scores_path.exists():
         raise FileNotFoundError(
-            f"Missing Step 1 OOS scores at {scores_path}. Run `python3 src/step1_pipeline.py run` first."
+            f"Missing E1 out-of-sample scores at {scores_path}. Run `python3 src/step1_pipeline.py run` first."
         )
     scores = pd.read_parquet(scores_path).copy()
     required = {
@@ -51,7 +52,7 @@ def prepare_events(scores_path: Path, event_start: pd.Timestamp, event_end: pd.T
     }
     missing = sorted(required.difference(scores.columns))
     if missing:
-        raise ValueError(f"Step 1 score file is missing required columns: {', '.join(missing)}")
+        raise ValueError(f"E1 score file is missing required columns: {', '.join(missing)}")
     scores["formation_date"] = pd.to_datetime(scores["formation_date"], errors="coerce")
     scores["next_announcement_date"] = pd.to_datetime(scores["next_announcement_date"], errors="coerce")
     scores["permno"] = pd.to_numeric(scores["permno"], errors="coerce").astype("Int64")
@@ -178,7 +179,7 @@ def _window_metrics(group: pd.DataFrame, lower: int, upper: int, prefix: str) ->
 
 
 def summarize_event_days(days: pd.DataFrame) -> pd.DataFrame:
-    """Collapse the trading-day rows to the Step 2 event-level panel."""
+    """Collapse trading-day rows to the E1 event-level panel."""
     static = [
         "event_id", "permno", "formation_date", "formation_year", "formation_quarter", "announcement_date",
         "next_sue", "target_for_model", "log_market_equity_lag1", "analyst_coverage", "size_tercile",
@@ -216,8 +217,8 @@ def write_diagnostics(panel: pd.DataFrame, events: pd.DataFrame, output_dir: Pat
         output_dir / "event_panel_diagnostics.csv", index=False
     )
     (output_dir / "step2_data_note.md").write_text(
-        "# Step 2 event panel\n\n"
-        "Each row is one out-of-sample Step 1 firm-quarter linked to its next I/B/E/S quarterly EPS announcement. "
+        "# E1 earnings-announcement event panel\n\n"
+        "Each row is one out-of-sample forecast observation linked to its next I/B/E/S quarterly EPS announcement. "
         "The CRSP event date is the first trading date on or after the I/B/E/S date. "
         "Because I/B/E/S Summary has no intraday release time, `car_market_adjusted_0_p1` is the primary event-return measure; "
         "it is the sum of `DlyRet - VWRETD` on the anchor date and next trading date.\n\n"
@@ -232,8 +233,8 @@ def build(args: argparse.Namespace) -> Path:
         raise ValueError("--event-end must be on or after --event-start")
     events = prepare_events(args.scores_path, event_start, event_end)
     if events.empty:
-        raise ValueError("No Step 1 OOS events fall inside the requested event range.")
-    print(f"Linking {len(events):,} Step 1 OOS events to CRSP daily returns...", flush=True)
+        raise ValueError("No E1 out-of-sample events fall inside the requested event range.")
+    print(f"Linking {len(events):,} E1 out-of-sample events to CRSP daily returns...", flush=True)
     days = query_event_days(events, args.daily_path)
     panel = summarize_event_days(days)
     args.event_panel.parent.mkdir(parents=True, exist_ok=True)

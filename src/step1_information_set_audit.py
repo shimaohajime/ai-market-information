@@ -1,4 +1,4 @@
-"""Audit the Step 1 information sets for current-price contamination.
+"""Audit the E1 information sets for current-price contamination.
 
 The economic comparison requires L0 and H0 to exclude the formation-month
 price snapshot.  This program makes the restriction machine-checkable from the
@@ -129,7 +129,7 @@ def run(args: argparse.Namespace) -> None:
     expanded_manifest.to_csv(args.output_dir / "information_set_audit_feature_manifest.csv", index=False)
     results.to_csv(args.output_dir / "information_set_audit_checks.csv", index=False)
     report = [
-        "# Step 1 information-set audit",
+        "# E1 information-set audit",
         "",
         "All checks passed. `L0` and `H0` exclude the formation-month price snapshot. "
         "They may use only strictly lagged CRSP price/return histories and public accounting information.",

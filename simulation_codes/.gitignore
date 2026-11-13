@@ -33,6 +33,8 @@ data/private/
 tools/si_figures/recovered/
 tools/si_figures/data/
 tools/si_figures/figures/
+**/RELEASE_NOTE.md
+simulations/neural/first_deployment/docs/PHASE2_REPORT.md
 
 # Python and build outputs
 __pycache__/

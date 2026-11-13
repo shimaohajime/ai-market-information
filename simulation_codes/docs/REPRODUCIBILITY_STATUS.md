@@ -14,7 +14,7 @@ python -m pytest -q simulation_codes/simulations/population/eight_state/tests
 python -m pytest -q simulation_codes/simulations/neural/first_deployment/tests
 ~~~
 
-The experiment-specific `README`, `PROTOCOL`, `RELEASE_NOTE`, and `requirements.txt` files document additional commands and dependencies.
+The experiment-specific `README`, `PROTOCOL`, and `requirements.txt` files document additional commands and dependencies.
 
 ## Interpretation of a successful check
 
@@ -22,4 +22,4 @@ A syntax or unit-test pass verifies the released source and the listed local che
 
 ## Known boundary
 
-The `e8_robustness_partial` directory contains the available subset of an incomplete source archive; 45 original members were unavailable. Do not describe it as a full E8 reproduction.
+`e8_robustness_partial` is a partial implementation record and is not a standalone reproduction target. The paper-facing simulation map and primary reproduction entry points are in `simulation_codes/README.md`.

@@ -1,7 +1,7 @@
-"""Estimate the pre-specified Step 2 market-expectations tests.
+"""Estimate the pre-specified E1 market-expectations tests.
 
-The four Step 1 predictions are strictly pre-announcement, out-of-sample
-objects.  Step 2 uses earnings-announcement CARs to ask which simulated
+The four pre-announcement, out-of-sample predictions are fixed before the
+event. This analysis uses earnings-announcement CARs to ask which simulated
 expectation best resembles the expectation embedded in the market price.
 
 The two main decompositions are:
@@ -57,10 +57,10 @@ def winsorize_by_year(values: pd.Series, years: pd.Series, lower: float, upper: 
 def prepare_analysis_sample(
     panel_path: Path, lower: float, upper: float, sample_flag: str | None = None
 ) -> pd.DataFrame:
-    """Construct only ex-ante Step 1 signals and a complete primary event window."""
+    """Construct ex-ante E1 signals and a complete primary event window."""
     if not panel_path.exists():
         raise FileNotFoundError(
-            f"Missing Step 2 event panel at {panel_path}. Run `python3 src/step2_event_panel.py build` first."
+            f"Missing E1 event panel at {panel_path}. Run `python3 src/step2_event_panel.py build` first."
         )
     panel = pd.read_parquet(panel_path).copy()
     required = {
@@ -305,10 +305,10 @@ def write_report(
         for row in stability.itertuples(index=False)
     )
     sample_note = "Full complete-window sample" if sample_flag is None else f"Sample flag: `{sample_flag}`"
-    report = f"""# Step 2: market-expectations event study
+    report = f"""# E1 market-expectations event study
 
 The primary outcome is winsorized market-adjusted CAR[0,+1]. The sample uses
-only complete event windows and Step 1's out-of-sample predictions. SUE and
+only complete event windows and the out-of-sample predictions. SUE and
 CAR are winsorized within announcement year at [{lower:.0%}, {upper:.0%}].
 Predictions are not winsorized, preserving the signal decompositions exactly.
 {sample_note}.

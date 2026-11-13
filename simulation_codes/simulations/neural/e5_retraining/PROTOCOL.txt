@@ -70,4 +70,3 @@ not proof of global optimality, uniqueness, or a population retraining fixed poi
 Implementation tests independently verify clearing, recovery of an analytically
 solvable constant-policy market, finite-window inference, no future-payoff leakage,
 inactive-capacity isolation, path boundaries, and frozen model fingerprints.
-All accepted manuscript and earlier experiment files remain unchanged.

@@ -1,6 +1,4 @@
-# Task 3.8 — Independently optimized mean / risk head ablations
-
-October 16, 2026. Internal research package for the microfounded computational-market Science project.
+# Independently optimized mean and risk ablations
 
 ## Research question
 
@@ -32,7 +30,6 @@ pdflatex -interaction=nonstopmode -halt-on-error TASK38_RESEARCH_SYNTHESIS.tex
 
 ## Output guide
 
-- `TASK38_RESEARCH_SYNTHESIS.pdf/.tex`: 5-page detailed research note, with model, theorem, results, limitations and Task 3.9/Phase 04 decision plan.
 - `results/independently_optimized_arms.csv`: 144 arm-by-bank observations; model NLL on a common inherited law, decoder gains, risk, microfounded price-clearing diagnostics.
 - `results/paired_effects.csv`: 36 same-shock-bank paired contrasts vs 00; **not** 36 statistically independent trained AI systems.
 - `results/training_cell_summary.csv`: 18 independent training cells, with the two evaluation banks averaged within each.
@@ -49,8 +46,8 @@ pdflatex -interaction=nonstopmode -halt-on-error TASK38_RESEARCH_SYNTHESIS.tex
 2. The mean/variance learner is separately trained in each restriction, but the resulting nonlinear neural solution is an approximate empirical optimizer, **not a certified global population optimum**. Optimizers and validation stopping affect results.
 3. The E3 decoder is a **finite-history OOS linear estimator** of the target fundamental and is not conditional mutual information, full-information Blackwell informativeness or social welfare.
 4. The tested economic calibrations vary only conditional volatility amplitude, not arbitrary macro dynamics or signal technologies; other calibrations may behave differently.
-5. For across-economy statistical generalization, 3 seeds/calibration ×3 correlated calibrations are only a pilot. No publication-strength uncertainty claim is made.
-6. The original aligned-E1 theoretical crowd-out is not contradicted by nonaligned E3 decoder-gain sign variation.
+5. Across-economy statistical generalization is limited: three seeds per calibration and three correlated calibrations do not support broad uncertainty claims.
+6. The aligned theoretical private-information comparison and the nonaligned decoder-gain calculation answer different questions.
 
 ## Empirical synopsis
 

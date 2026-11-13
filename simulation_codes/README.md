@@ -1,57 +1,52 @@
-# Simulation code
+# Market-simulation code
 
-This directory contains the simulation component of the research-code release for *The Opposing Informational Effects of AI Trading*. It covers analytic Gaussian population benchmarks and finite neural-market experiments on first deployment, retraining, adoption, information measurement, and robustness.
+This directory contains the simulation evidence for *The Opposing Informational Effects of AI Trading*. It corresponds to the paper's theoretical and numerical sequence: an analytically tractable competitive market, population Gaussian calculations, and finite neural-market experiments.
 
-The directory contains executable source, configurations, tests, experiment-specific documentation, and small aggregate simulation summaries. It does **not** contain proprietary financial data, raw model/API records, neural checkpoints, full simulated trajectories, or any external credential.
+The package contains executable source, configurations, tests, experiment-specific methodological notes, and small aggregate reference results. It does **not** contain financial data, model/API records, neural checkpoints, full simulated trajectories, or credentials.
 
-## Components
+## Connection to the paper
 
-| Directory | Contents |
+| Paper component | Reproduction material |
 | --- | --- |
-| `simulations/population/gaussian` | Analytic finite-lag Gaussian retraining benchmark and information measures |
-| `simulations/population/eight_state` | Eight-state information and local-condition benchmark |
-| `simulations/population/mean_risk_ablation` | Mean/risk and neural-head ablations |
-| `simulations/population/reoptimized_ablation` | Independent restricted-head ablation |
-| `simulations/neural/first_deployment` | Finite SSM/GRU initial-deployment simulations |
-| `simulations/neural/slow_fast` | Slow/fast retraining simulations |
-| `simulations/neural/e3_e4_information_value` | Simulation measurements of price-sharing and computation value |
-| `simulations/neural/e5_retraining` | Retraining continuation |
-| `simulations/neural/e6_e7_group_retraining` | Group retraining and adoption studies |
-| `simulations/neural/e8_robustness_partial` | Available E8 robustness source; see limitation below |
-| `simulations/neural/e9_e10_extensions` | Learning-dynamics and extension studies |
-| `results/aggregate` | Small aggregate synthetic summaries used for checking and plotting |
-| `tools` | Repository validation and simulation-figure utilities |
+| Theory and competitive-market environment (S1--S6) | Population market primitives and numerical checks in `simulations/population/` |
+| Population Gaussian markets (S7) | `population/gaussian/`, `population/eight_state/`, and the population ablations |
+| Initial deployment and finite retraining (S8) | `neural/first_deployment/`, `neural/slow_fast/`, `neural/e5_retraining/`, and `neural/e6_e7_group_retraining/` |
+| Price usefulness and the value of further computation (S9) | `neural/e3_e4_information_value/` and its aggregate reference tables |
+| Learning, readout, and payout-law checks (S10) | `neural/e9_e10_extensions/` and its aggregate reference tables |
 
-The `tools/si_figures/` directory retains the scripts used to construct and audit supplementary figures. Those scripts document the calculations but require archived path-level inputs that are deliberately excluded from this source-and-aggregate-results release; see its README before using them.
+The directories use compact experiment names because they match the computational protocols. The table above is the paper-facing map.
 
 ## Quick start
 
-Use the dependency file and release note in the specific experiment directory. The Gaussian population benchmark is the lightest entry point:
+The population benchmarks are the lightest fully runnable entry points:
 
 ~~~bash
 cd simulation_codes/simulations/population/gaussian
 python -m pytest -q tests
 python benchmark.py
 python analysis.py
+
+cd ../eight_state
+python -m pytest -q tests
 ~~~
 
-For a whole-source syntax check from the repository root:
+For a syntax check from the repository root:
 
 ~~~bash
 python -m compileall -q simulation_codes/simulations simulation_codes/tools/check_repository.py
 python simulation_codes/tools/check_repository.py
 ~~~
 
-Neural experiments can require substantial compute to recreate trained policies. Their source is released for transparency and reruns, but model checkpoints and full trajectory banks are intentionally not distributed.
+Finite neural-market experiments may require the experiment-specific dependencies in their `requirements.txt` files and substantial CPU time. Their protocol notes state the training, evaluation, and numerical-validation conventions. Small reference summaries for checks and plotting are in [`results/aggregate/`](results/aggregate/).
 
-## Reproducibility boundaries
+## Reproduction boundaries
 
-- The population Gaussian benchmark solves its stationary covariance and population regressions analytically rather than using a Monte Carlo approximation for its main moments.
-- The neural studies retain executable architectures, training, clearing, and evaluation logic. Some full reruns require excluded initial-policy checkpoints or synthetic trajectory banks.
-- Small synthetic aggregate JSON and CSV files are included for numerical checking and figure generation. They are not licensed financial data or individual-level records.
-- The recovered E8 subset is incomplete: 45 source-archive members are unavailable. It must not be described as a complete E8 reproduction.
-- The empirical analysis code lives at the repository root (`src/`, `config/`, and `prompt_templates/`), rather than in this subdirectory.
+- The population calculations solve stationary covariance and regression objects directly. They are distinct from the finite-sample neural experiments.
+- The neural experiments retain their market generator, forecasting architecture, training procedure, clearing logic, and evaluation code. Full reruns can require excluded checkpoints or synthetic trajectory banks.
+- The included JSON and CSV summaries are synthetic aggregate reference outputs. They are neither licensed financial data nor individual-level records.
+- `neural/e8_robustness_partial/` is a partial implementation record, not a standalone reproducible experiment. It is not a primary reproduction entry point for the paper's results.
+- Supplementary-figure utilities are in [`tools/si_figures/`](tools/si_figures/). They document figure construction but need archived path-level inputs that are not part of this source-and-summary release.
 
 ## Citation and license
 
-Citation metadata are in `CITATION.cff`. This package currently has no explicit open-source license; select an appropriate license after confirming rights for all vendored and archived code, and before changing the GitHub repository to public.
+Citation metadata are in [`CITATION.cff`](CITATION.cff). This package does not yet have an explicit open-source license. Select one only after confirming rights for all included and vendored code, and before making the repository public.

@@ -10,7 +10,7 @@
   ],
   "event_timing_note": "I/B/E/S Summary does not provide release timestamps. The [0,+1] window captures a same-day or after-market announcement reaction without classifying announcement time.",
   "market_expectations_specification": {
-    "sample": "Complete CRSP event windows from the Step 1 OOS sample; predictions are fixed before the announcement.",
+    "sample": "Complete CRSP event windows from the E1 out-of-sample forecast sample; predictions are fixed before the announcement.",
     "signal_designs": {
       "low_price": "CAR = beta * (SUE - L1) + delta * (L1 - L0) + controls + event-date FE",
       "high_price": "CAR = beta * (SUE - H1) + delta * (H1 - H0) + controls + event-date FE",

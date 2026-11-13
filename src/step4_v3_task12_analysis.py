@@ -1,4 +1,4 @@
-"""Aggregate the locked Step 4 Task 1--2 development experiment.
+"""Aggregate the locked E2 development experiment.
 
 Raw Responses API outputs remain local.  This module writes only aggregate
 tables and an auditable Markdown report.  Dossier, rather than API response or
@@ -259,7 +259,7 @@ def main() -> None:
     }
     missing = [str(path) for path in inputs.values() if not path.exists()]
     if missing:
-        raise FileNotFoundError("Required Task 1--2 raw outputs are missing:\n" + "\n".join(missing))
+        raise FileNotFoundError("Required E2 raw outputs are missing:\n" + "\n".join(missing))
     frames: list[pd.DataFrame] = []
     raw_frames: list[pd.DataFrame] = []
     audit: dict[str, dict[str, int]] = {}
@@ -299,7 +299,7 @@ def main() -> None:
     }
     (output / "step4_v3_task12_summary.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     report = "\n".join([
-        "# Step 4 Task 1--2 development results",
+        "# E2 development results",
         "",
         "This report uses the 20 locked development dossiers. Repetitions are averaged within dossier; all bootstrap intervals resample dossiers. It is not a new-firm holdout result.",
         "",
@@ -311,13 +311,13 @@ def main() -> None:
         "",
         f"Actual recorded API cost: ${sum(costs.values()):.4f} (GPT-6 ${costs.get('gpt6', 0.0):.4f}; GPT-5.2 ${costs.get('gpt52', 0.0):.4f}).",
         "",
-        "## Task 1: deterministic public-information competence",
+        "## Deterministic public-information competence",
         "",
         f"Tolerance: {competence_meta['tolerance']:.4f}.",
         "",
         markdown_table(competence),
         "",
-        "## Task 1: public-only next-surprise forecasts",
+        "## Public-only next-surprise forecasts",
         "",
         markdown_table(forecast),
         "",
@@ -325,7 +325,7 @@ def main() -> None:
         "",
         markdown_table(forecast_comparisons),
         "",
-        "## Task 2: private-clue slopes",
+        "## Private-clue response slopes",
         "",
         markdown_table(slopes),
         "",

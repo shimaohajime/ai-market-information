@@ -1,4 +1,4 @@
-"""Build a locked, time-safe real-data holdout for Step 4.
+"""Build a locked, time-safe real-data sample for the E2 replication.
 
 This command makes no model or network call. It selects 50 anonymous
 firm-quarter dossiers from years disjoint from the 2012--2016 development

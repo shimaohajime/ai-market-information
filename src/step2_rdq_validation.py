@@ -3,7 +3,7 @@
 This is a timing audit, not a replacement source for the primary event date.
 It appends the closest same-PERMNO Compustat RDQ and flags agreement within
 0, 1, 3, 7, and 30 calendar days.  The one-day matched sample can then be
-passed to the Step 2 market-expectations runner as a high-confidence timing
+passed to the event-time analysis as a high-confidence timing
 robustness sample.
 """
 
@@ -104,7 +104,7 @@ def diagnostics(panel: pd.DataFrame) -> pd.DataFrame:
 
 def run(args: argparse.Namespace) -> None:
     if not args.panel.exists():
-        raise FileNotFoundError(f"Missing Step 2 event panel: {args.panel}")
+        raise FileNotFoundError(f"Missing E1 event panel: {args.panel}")
     panel = pd.read_parquet(args.panel)
     comp = read_compustat_quarterly(args.compustat_quarterly)
     output = append_rdq(panel, comp, args.max_gap_days)

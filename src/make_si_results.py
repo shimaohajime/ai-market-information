@@ -1,4 +1,4 @@
-"""Create SI-ready Step 1--2 tables, figures, and a results-section draft."""
+"""Create Supplementary E1 tables, figures, and result summaries."""
 
 from __future__ import annotations
 
@@ -299,7 +299,7 @@ With formation-date fixed effects, both high-compute increments remain positivel
 
 ## S5. Scope
 
-These analyses compare counterfactual information-processing technologies in the same market data. They neither measure adviser AI adoption nor identify a causal AI-adoption effect. An adviser-level AI-talent pilot can later test whether observed adoption changes S, F, and V; it should not be required for the Step 1--2 external-validity evidence reported here.
+These analyses compare counterfactual information-processing technologies in the same market data. They neither measure adviser AI adoption nor identify a causal AI-adoption effect. The observed-market evidence is interpreted as a comparison of what the same public financial record adds to two specified processors.
 """
     (output / "SI_EMPIRICAL_RESULTS_DRAFT.md").write_text(draft)
 

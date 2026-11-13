@@ -1,4 +1,4 @@
-"""Pre-API researcher-side audit for the Step 4 real-data price treatment.
+"""Pre-API researcher-side audit for the E2 real-data price treatment.
 
 The audit uses no LLM or external API. It asks a deliberately narrow question:
 do target-firm pre-cutoff price features improve a fixed, non-LLM next-SUE
@@ -392,7 +392,7 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
     }
     (output / "step4_holdout_public_signal_audit_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     report = "\n".join([
-        "# Step 4 holdout public-signal audit",
+        "# E2 public-signal audit",
         "",
         "This is a non-LLM pre-API gate. The model output is not used in its construction.",
         "",

@@ -1,7 +1,6 @@
-"""Analyze the Task 2 private-clue precision and demand supplement.
+"""Analyze the private-clue precision and demand supplement for E2.
 
-The completed 0.7-SD Task 2 output and the separately run 1.4-SD output are
-combined only after validation.  Dossiers—not repetitions or API calls—are the
+The 0.7-SD and 1.4-SD conditions are combined only after validation. Dossiers—not repetitions or API calls—are the
 inference unit.  Raw response files remain ignored local artifacts.
 """
 
@@ -286,7 +285,7 @@ def main() -> None:
     }
     (output / "task2_precision_summary.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     report = "\n".join([
-        "# Step 4 Task 2 private-clue precision supplement",
+        "# E2 private-clue precision supplement",
         "",
         "This is a post-result behavioral-validation supplement. Inference uses 20 dossiers after averaging three repetitions within dossier.",
         "",

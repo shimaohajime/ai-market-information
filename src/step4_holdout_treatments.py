@@ -1,4 +1,4 @@
-"""Construct blinded real-data public-information conditions for the Step 4 holdout.
+"""Construct blinded real-data public-information conditions for the E2 replication.
 
 The source files are local and time-safe. This program makes no model or
 network calls. It constructs equal-format genuine, cross-issuer, and

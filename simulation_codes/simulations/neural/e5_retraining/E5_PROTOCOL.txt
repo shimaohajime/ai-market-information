@@ -1,10 +1,8 @@
-E5 continuation and baseline establishment - 29 October 2026
+Finite retraining continuation and baseline diagnostics
 
-Source: AI_Trading_Slow_Fast_Retraining_v1_20261028.zip, Library version 2.
-The original archive and original results are retained under e5_inputs. All
-accepted manuscript files are untouched. Existing economic primitives,
-architectures, optimization budgets, data-bank sizes and normalization remain
-unchanged. Resume the nine trajectories from their saved round-6 deployments.
+The economic primitives, architectures, optimization budgets, data-bank sizes,
+and normalization are fixed by the configuration. The calculation continues
+the nine specified trajectories from their saved round-6 deployments.
 
 Primary extension: twelve simultaneous slow updates, rather than six, for all
 three seeds and x in {0, .5, 1}. This first extension is a fixed budget, not a

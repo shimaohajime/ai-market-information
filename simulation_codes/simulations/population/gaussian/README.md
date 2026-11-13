@@ -1,10 +1,10 @@
-# Population-optimal retraining benchmark (2026-10-16)
+# Population Gaussian retraining benchmark
 
-**Purpose.** Eliminate finite-sample regression noise, Adam/SGD, early stopping and neural nonconvexity from the market-learning loop, then assess how endogenous retraining changes the price-information crowd-out effect. This analytic finite-lag Gaussian model is a benchmark, **not** a population solution for the trained nonlinear SSM/GRU in the previous Phase 3 experiment.
+**Purpose.** Eliminate finite-sample regression noise, optimization error, and neural nonconvexity from the market-learning loop, then assess how endogenous retraining changes private-information aggregation. This analytic finite-lag Gaussian model is distinct from the finite neural-market experiments.
 
 ## Economic model and identification of information
 
-The economic primitives match the Phase-1/3 **E1_aligned 8d** market (`marketlab/scenarios.py`) including the eight latent factors, two noisy public macros, private noisy signals, two CARA investor masses/risk aversions, one-period aligned payoff, competitive clearing, and the original `.9` supply noise standard deviation. The forecaster is changed to a globally optimal population Gaussian regression of next dividend on current macros, some past public prices/dividends/macros, its own private signal and current auction price. The larger predictor class contains the smaller class.
+The economic primitives match the aligned eight-state market (`marketlab/scenarios.py`): eight latent factors, two noisy public macro signals, private noisy signals, two CARA investor groups, an aligned one-period payoff, and competitive clearing. The forecaster is a globally optimal population Gaussian regression of the next dividend on current macro signals, selected lags of public prices, dividends, and macro signals, its own private signal, and the current auction price. The larger predictor class contains the smaller class.
 
 A clearing profile is represented by `q=[A,C,Delta]` with price `p_t=(A theta_t + C'z_t - zeta_t)/Delta`. A known-policy observer's transformed fresh-price likelihood precision is `J=A²/Var(zeta)`. **This is not unconditional mutual information.** `cycles.py` additionally evaluates conditional mutual information given the **same three-lag public observation set** in every regime.
 
@@ -21,7 +21,7 @@ At supply noise SD **0.90**, upgrading type 1's public memory from 0 to 3 lag bl
 
 At supply noise SD **0.715**, the upgraded fixed point becomes unstable (radius `1.011628`), while population optimal retraining has a **locally stable period-two cycle** `J=3.145212/2.837061` (two-step Jacobian radius `0.956315`; two-cycle residual < 7e-15), both below the low-capacity baseline `J=3.528594`. The dominant eigenvalue crosses -1 near supply SD `0.720896` (numeric bifurcation witness). Each frozen fast market remains stationary (`rho=0.94`).
 
-A **bounded price-head sensitivity** `|chi| <= 0.45`, matching the physical bound used in Phase 3 SSM/GRU, has another stable period-two population orbit at supply noise SD **0.62** with cycle `J=4.093490/3.604803`, baseline `4.932512`, and two-step radius `0.841848`. Its numerically located flip threshold is near `0.647130`. This does *not* establish a cycle of the original neural architecture at supply SD .90, and a bound on chi changes the assumptions of the prior general first-deployment theorem.
+A **bounded price-head sensitivity** `|chi| <= 0.45`, matching the bound used in the neural experiments, has another stable period-two population orbit at supply noise SD **0.62** with cycle `J=4.093490/3.604803`, baseline `4.932512`, and two-step radius `0.841848`. Its numerically located flip threshold is near `0.647130`. This does *not* establish a cycle of a finite neural architecture at supply SD .90, and the coefficient bound changes the assumptions of the general initial-deployment comparison.
 
 ## Validation
 
@@ -49,15 +49,14 @@ pdflatex -interaction=nonstopmode POPULATION_RETRAINING_NOTE.tex
 
 ## Files
 
-`POPULATION_RETRAINING_NOTE.tex/.pdf`: five-page English technical research note with propositions, proofs, limitations, figures.
 `benchmark.py`: exact stationary Lyapunov covariance, Gaussian log-score minimization, price-clearing update.
 `sensitivity.py`: analytic Jacobian of the entire population retraining operator.
 `analysis.py`: impact vs equilibrium crowd-out, adoption feedback derivative, moment checks.
 `cycles.py`: numerical population flip and stable 2-cycle, plus conditional mutual information.
 `bounded.py`: price-slope constraint ablation.
-`independent_engine_check.py`: external simulation verification on the unchanged Phase-1 market engine.
+`independent_engine_check.py`: independent simulation verification on the shared market engine.
 `multistart.py`: neighborhood numerical basins.
-`marketlab`: minimal source modules from earlier Phase 1 as used by this benchmark (copied for reproducibility).
+`marketlab`: minimal market modules used by this benchmark.
 `tests`: unit tests.
 `results.json`, `cycles.json`, `bounded.json`: detailed reusable numerical outputs.
-`*.png`: publication-draft figures.
+`*.png`: locally generated figures.

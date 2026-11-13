@@ -1,7 +1,7 @@
-"""Run the locked Step 4 Task 1--2 development experiment.
+"""Run the locked E2 development experiment.
 
 All calls are fresh Responses API requests.  The runner supports only the
-pre-specified Task 1 competence/public-only tasks and Task 2 mechanism task,
+pre-specified competence, public-context, and behavioral conditions,
 records explicit replicate IDs, and safely resumes an interrupted run without
 duplicating a scenario.
 """
@@ -267,7 +267,7 @@ def build_requests(config: dict[str, Any], task: str, model_key: str) -> list[di
                         )
     ids = [str(item["scenario_id"]) for item in requests]
     if len(ids) != len(set(ids)):
-        raise AssertionError("Task 1--2 design has duplicate scenario IDs.")
+        raise AssertionError("E2 design has duplicate scenario IDs.")
     return requests
 
 

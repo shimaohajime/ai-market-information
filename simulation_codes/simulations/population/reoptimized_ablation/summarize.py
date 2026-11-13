@@ -25,7 +25,7 @@ for i,(name,coll) in enumerate(zip(label,columns)):
 ax.axhline(0,color='gray',lw=.8)
 ax.set_ylabel('Incremental linear decoder gain vs low-capacity baseline (pp)')
 ax.set_xticks([i*2.45+j*.8 for i in range(3) for j in range(2)], [f'{t}\n{a.upper()}' for t in label for a in ('ssm','gru')], fontsize=8)
-ax.set_title('Task 3.8: independently reoptimized constrained predictors')
+ax.set_title('Independently reoptimized constrained predictors')
 ax.text(.015,.02,'Dots: 3 risk calibrations × 3 training seeds per architecture; 2 shock-bank tests averaged.',
         transform=ax.transAxes,fontsize=8)
 # Markers directly labelled on x axis; no ambiguous legend.

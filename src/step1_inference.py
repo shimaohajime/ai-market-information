@@ -1,6 +1,6 @@
-"""Audit and infer the Step 1 price--compute loss moments.
+"""Audit and infer the E1 forecast-loss comparisons.
 
-The Step 1 runner evaluates all four models with a common Gaussian scale in
+The forecast runner evaluates all four models with a common Gaussian scale in
 each OOS year.  Consequently, differences in its Gaussian pseudo-log-loss are
 exactly half of the corresponding squared-error differences divided by that
 year's common scale squared.  This script documents that identity, reports
@@ -72,7 +72,7 @@ def quarter_block_bootstrap(values: pd.Series, quarter: pd.Series, draws: int, s
 
 def load_scores(scores_path: Path, folds_path: Path) -> pd.DataFrame:
     if not scores_path.exists() or not folds_path.exists():
-        raise FileNotFoundError("Run `python3 src/step1_pipeline.py run` before Step 1 inference.")
+        raise FileNotFoundError("Run `python3 src/step1_pipeline.py run` before E1 inference.")
     scores = pd.read_parquet(scores_path).copy()
     folds = pd.read_csv(folds_path)
     required = {"permno", "formation_date", "formation_year", "target_for_model"}
@@ -80,7 +80,7 @@ def load_scores(scores_path: Path, folds_path: Path) -> pd.DataFrame:
     required |= {f"loss_{model}" for model in MODELS}
     missing = sorted(required.difference(scores.columns))
     if missing:
-        raise ValueError(f"Missing Step 1 OOS columns: {', '.join(missing)}")
+        raise ValueError(f"Missing E1 out-of-sample columns: {', '.join(missing)}")
     sigma = folds.groupby("test_year", as_index=False).agg(common_sigma=("common_sigma", "first"))
     if folds.groupby("test_year").common_sigma.nunique().gt(1).any():
         raise ValueError("The OOS fold file does not have a common sigma across models within every year.")
@@ -199,7 +199,7 @@ def write_report(summary: pd.DataFrame, identity: pd.DataFrame, output_dir: Path
     v = by_moment.loc["V_loss"]
     e = by_moment.loc["E_loss"]
     gap = by_moment.loc["sharing_gap_loss"]
-    report = f"""# Step 1 inference and loss audit
+    report = f"""# E1 inference and loss audit
 
 All four models share a single Gaussian scale within an OOS year. Thus the
 reported pseudo-log-loss differences are common-scale squared-error differences,

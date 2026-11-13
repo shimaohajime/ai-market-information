@@ -10,7 +10,7 @@ The controlled LLM experiments use local anonymous dossier payloads, outcome key
 
 The simulation source is included under `simulation_codes/simulations/`. Small aggregate synthetic outputs are included under `simulation_codes/results/aggregate/` for numerical checking and plotting. The release excludes neural checkpoints, full training datasets, and full simulated market trajectories; full reruns of some neural studies may therefore require substantial compute and locally regenerated artifacts.
 
-The E8 source subset is incomplete: 45 original archive members were unavailable. It is released for transparency but is insufficient for a claim of complete E8 reproducibility.
+The E8 robustness directory is a partial implementation record and is not a standalone reproduction entry point. The main reproduction paths are the population benchmarks and the neural experiments mapped in `simulation_codes/README.md`.
 
 ## Credentials and licensing
 

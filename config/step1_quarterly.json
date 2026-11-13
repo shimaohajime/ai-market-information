@@ -1,5 +1,5 @@
 {
-  "design": "Pre-specified robustness to the annual-accounting Step 1 analysis",
+  "design": "Point-in-time quarterly-accounting robustness to the annual-accounting forecast comparison",
   "formation_start": "2011-03-31",
   "formation_end": "2025-12-31",
   "first_oos_year": 2018,

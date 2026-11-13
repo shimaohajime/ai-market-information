@@ -1,12 +1,12 @@
-"""Build and estimate the Step 1 simulated-compute earnings-news pilot.
+"""Build the E1 public-data processing forecast comparison.
 
 The unit is a CRSP common-stock PERMNO at calendar-quarter end.  All matching
 is point-in-time: annual Compustat statements must be public by formation, the
 CRSP--I/B/E/S CUSIP mapping must be active at formation, and the selected EPS
 surprise must be the first strictly future announcement within 180 days.
 
-The script intentionally stops before any institutional-owner or manager-AI
-analysis.  It is a local, reproducible feasibility pilot for Step 1.
+The analysis compares two specified processors of the same public record. It
+does not measure actual investor or asset-manager AI adoption.
 """
 
 from __future__ import annotations
@@ -717,7 +717,7 @@ def assign_descriptive_bins(scores: pd.DataFrame) -> pd.DataFrame:
 def write_report(summary: pd.DataFrame, diagnostics: pd.DataFrame, output: Path, first_oos_year: int) -> None:
     overall = summary.loc[summary.group.eq("overall")].drop(columns="group")
     report = [
-        "# Step 1 simulated-compute pilot",
+        "# E1 public-data forecast comparison",
         "",
         "This is a counterfactual comparison of public-information processing technologies; it does not measure adviser or fund AI adoption.",
         "",

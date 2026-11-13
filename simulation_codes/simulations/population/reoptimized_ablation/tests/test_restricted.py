@@ -1,4 +1,4 @@
-"""Reproducibility/invariant tests for task 3.8."""
+"""Reproducibility and invariant tests for the restricted-head ablation."""
 import sys,unittest
 from pathlib import Path
 import numpy as np,pandas as pd

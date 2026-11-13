@@ -1,7 +1,7 @@
-"""Analyze the locked 50-dossier Step 4 behavioral replication.
+"""Analyze the locked 50-dossier E2 behavioral replication.
 
-This deliberately reads only the Task 2 raw outputs produced under
-step4_holdout_behavioral_replication_v1.  It writes aggregate-only results;
+This deliberately reads only the raw outputs specified for the behavioral
+replication. It writes aggregate-only results;
 no dossier-level response, target, or identifier is exported.
 """
 
@@ -27,7 +27,7 @@ EXPECTED_MODELS = ["gpt6", "gpt52"]
 def summary(records: pd.DataFrame, repetitions: int, seed: int) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     frame = records.loc[(records.task == "mechanism") & (records.parse_status == "valid")].copy()
     if frame.empty:
-        raise ValueError("No valid Task 2 records found.")
+        raise ValueError("No valid behavioral-condition records found.")
     cells = frame.groupby(["dossier_id", "replicate_id", "model_key", "information_condition"]).size()
     if not cells.eq(2).all():
         raise ValueError("Incomplete mechanism grid: each dossier/repetition/model/context cell needs two clues.")
@@ -87,7 +87,7 @@ def main() -> None:
     }
     missing = [str(path) for path in inputs.values() if not path.exists()]
     if missing:
-        raise FileNotFoundError("Required Task 2 raw outputs are missing:\n" + "\n".join(missing))
+        raise FileNotFoundError("Required behavioral-condition raw outputs are missing:\n" + "\n".join(missing))
     first_frames: list[pd.DataFrame] = []
     raw_frames: list[pd.DataFrame] = []
     audit: dict[str, dict[str, int]] = {}
@@ -118,9 +118,9 @@ def main() -> None:
     }
     (output / "step4_holdout_behavioral_replication_summary.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     report = "\n".join([
-        "# Step 4 independent behavioral replication",
+        "# E2 independent behavioral replication",
         "",
-        "This is a fixed, independent 50-dossier Task 2 behavioral replication. It tests private-clue substitution in a richer anonymous public financial context. It does not test or establish issuer-specific predictive content for next earnings surprises.",
+        "This fixed, independent 50-dossier replication tests private-clue substitution in a richer anonymous public financial context. It does not test or establish issuer-specific predictive content for next earnings surprises.",
         "",
         "## Raw-output audit",
         "",

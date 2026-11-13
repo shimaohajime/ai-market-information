@@ -1,7 +1,6 @@
-"""Build anonymous, time-safe rich-price dossiers for the Step 4 v2 pilot.
+"""Build anonymous, time-safe rich-price dossiers for the E2 context analysis.
 
-This leaves the completed v1 dossier and its results untouched.  The output
-contains only rebased return paths and derived statistics, never price levels,
+The output contains only rebased return paths and derived statistics, never price levels,
 dates, tickers, PERMNOs, or held-out earnings outcomes.
 """
 
@@ -167,7 +166,7 @@ def build(config: dict[str, Any]) -> dict[str, Any]:
     elif selection_mode == "all_phase0_candidates":
         # These are the full candidate set constructed before any LLM outcome
         # is observed.  This enables a cross-sectional expansion without
-        # selecting on the pilot's realised model responses.
+        # selecting on realized model responses from a prior probe.
         selected = candidates.copy()
     else:
         raise ValueError(

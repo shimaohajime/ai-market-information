@@ -1,4 +1,4 @@
-"""Task 3.7 population Gaussian microfounded factorial ablations.
+"""Population Gaussian microfounded factorial ablations.
 
 No sampling/training noise: population OLS/variance from the stationary Lyapunov covariance.
 Factorial interventions replace only one component of investor type 0's belief;

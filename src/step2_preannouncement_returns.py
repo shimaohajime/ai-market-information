@@ -1,7 +1,7 @@
-"""Add formation-to-announcement CRSP return measures to the Step 2 panel.
+"""Add formation-to-announcement CRSP return measures to the E1 event panel.
 
 For each event, the formation anchor is the first CRSP trading date on or
-after the Step 1 formation date.  Pre-announcement returns exclude both that
+after the forecast-formation date. Pre-announcement returns exclude both that
 anchor and the announcement trading date.  The resulting measures distinguish
 an early 20-trading-day response, a final 20-trading-day response, and the
 entire variable-length interval before earnings are announced.

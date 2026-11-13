@@ -131,7 +131,7 @@ def run(args: argparse.Namespace) -> None:
     output = pd.DataFrame(results)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     output.to_csv(args.output_dir / "preannouncement_signal_returns.csv", index=False)
-    report = "# Step 2 pre-announcement return tests\n\n"
+    report = "# E1 pre-announcement return tests\n\n"
     report += "The coefficients relate pre-announcement market-adjusted returns to pre-specified model signals. "
     report += "A positive coefficient is consistent with gradual pre-announcement incorporation; a null coefficient is ambiguous. "
     report += "Formation-date fixed effects and two-way PERMNO/formation-date clustered standard errors are used.\n\n"

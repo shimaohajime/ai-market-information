@@ -1,9 +1,9 @@
-"""Controlled synthetic public-price-information benchmark for Step 4.
+"""Controlled synthetic public-price-information benchmark for E2.
 
 This implements a known Gaussian information structure, with a public price
 tape that has a fixed length but a controlled number of payoff-linked signals.
 The exact posterior and private-clue slope remain local and are never sent to
-a model.  It supports a small go/no-go pilot before a larger registered run.
+a model.
 """
 
 from __future__ import annotations
@@ -490,7 +490,7 @@ def analyze(config: dict[str, Any], output: Path, model_keys: list[str] | None =
     result = {"analysis_model_keys": selected_models, "actual_api_cost_usd": costs, "public_accuracy": public_summary.to_dict(orient="records"), "slopes": slope_summary.to_dict(orient="records"), "contrasts": contrasts}
     (output / "synthetic_summary.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     report = "\n".join([
-        f"# Step 4 {config['experiment_id']} results",
+        f"# E2 synthetic benchmark: {config['experiment_id']}",
         "",
         "This is a synthetic mechanism benchmark. The unit of inference is the synthetic case.",
         f"Analysed model conditions: {', '.join(selected_models)}.",

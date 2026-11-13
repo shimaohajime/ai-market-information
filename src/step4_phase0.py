@@ -1,9 +1,9 @@
-"""Prepare the non-API assets and audit gates for the Step 4 LLM experiment.
+"""Prepare the non-API assets and audit gates for the E2 LLM experiment.
 
 This command deliberately makes no network or API call.  It selects anonymous
-historical dossiers from the point-in-time Step 1 panel, keeps the actual
-outcome only in an ignored local key, and creates the balanced Phase 1
-scenario manifest, prompt contract, cost estimates, and audit artifacts.
+historical dossiers from the point-in-time E1 panel, keeps the actual outcome
+only in an ignored local key, and creates the balanced scenario manifest,
+prompt contract, cost estimates, and audit artifacts.
 """
 
 from __future__ import annotations
@@ -127,7 +127,7 @@ def add_ex_ante_target(panel: pd.DataFrame, minimum_history: int) -> pd.DataFram
     never uses the realized value of this transformed target.
     """
     required = ["permno", "formation_date", "next_announcement_date", "next_sue"]
-    require_columns(panel, required, "Step 1 panel")
+    require_columns(panel, required, "E1 forecast panel")
     output = panel.copy()
     output["formation_date"] = pd.to_datetime(output.formation_date, errors="coerce")
     output["next_announcement_date"] = pd.to_datetime(output.next_announcement_date, errors="coerce")
@@ -175,7 +175,7 @@ def eligible_rows(panel: pd.DataFrame, config: dict[str, Any]) -> tuple[pd.DataF
         "permno", "cusip", "formation_date", "accounting_available_date", "next_announcement_date",
         "next_sue", "days_to_next_announcement", *selection["required_features"],
     ]
-    require_columns(panel, required, "Step 1 panel")
+    require_columns(panel, required, "E1 forecast panel")
     frame = add_ex_ante_target(panel, int(config["outcome"]["minimum_preformation_history"]))
     for column in ["formation_date", "accounting_available_date", "next_announcement_date"]:
         frame[column] = pd.to_datetime(frame[column], errors="coerce")
@@ -202,7 +202,7 @@ def eligible_rows(panel: pd.DataFrame, config: dict[str, Any]) -> tuple[pd.DataF
         "eligible_rows": int(len(eligible)),
     }
     if eligible.empty:
-        raise ValueError("No rows satisfy the pre-specified Step 4 eligibility rules.")
+        raise ValueError("No rows satisfy the pre-specified E2 eligibility rules.")
     eligible["size_bucket"] = assign_size_bucket(eligible)
     return eligible, diagnostics
 
@@ -461,9 +461,9 @@ def write_markdown_report(
     total = costs.loc[costs.effort.eq("all")].set_index("plan")
     phase1 = total.loc["phase1_total"]
     lines = [
-        "# Step 4 Phase 0 audit",
+        "# E2 dossier-construction audit",
         "",
-        "This audit created no API request and retrieved no SEC filing. It prepares an anonymous tabular-dossier pilot from the point-in-time Step 1 panel.",
+        "This audit created no API request and retrieved no SEC filing. It prepares anonymous tabular dossiers from the point-in-time E1 panel.",
         "",
         "## Data and timing gates",
         "",
@@ -502,7 +502,7 @@ def validate_artifacts(interim_root: Path, config: dict[str, Any]) -> dict[str, 
     check_scenarios_path = interim_root / "public_information_check_manifest.csv"
     for path in [candidate_key, dossiers_path, scenarios_path, checks_path, check_scenarios_path]:
         if not path.exists():
-            raise FileNotFoundError(f"Missing Phase 0 artifact: {path}")
+            raise FileNotFoundError(f"Missing E2 preparation artifact: {path}")
     candidates = pd.read_parquet(candidate_key)
     scenarios = pd.read_csv(scenarios_path)
     check_scenarios = pd.read_csv(check_scenarios_path)
@@ -550,7 +550,7 @@ def validate_artifacts(interim_root: Path, config: dict[str, Any]) -> dict[str, 
 def build(config: dict[str, Any]) -> dict[str, object]:
     panel_path = resolve_repo_path(config["panel_path"])
     if not panel_path.exists():
-        raise FileNotFoundError(f"Missing Step 1 panel: {panel_path}")
+        raise FileNotFoundError(f"Missing E1 forecast panel: {panel_path}")
     panel = pd.read_parquet(panel_path)
     eligible, diagnostics = eligible_rows(panel, config)
     eligible = attach_sic(eligible, Path(config["ccm_link_path"]))
