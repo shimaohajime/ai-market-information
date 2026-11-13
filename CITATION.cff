@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper."
+type: software
+title: "Research code for The Opposing Informational Effects of AI Trading"
+authors:
+  - family-names: Shimao
+    given-names: Hajime
+repository-code: "https://github.com/shimaohajime/ai-market-information"

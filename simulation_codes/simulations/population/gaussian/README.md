@@ -27,7 +27,7 @@ A **bounded price-head sensitivity** `|chi| <= 0.45`, matching the bound used in
 
 - Nine unit tests pass (`python -m pytest -q tests`).
 - Analytical Jacobian versus independent centered differences: maximum entrywise difference `3.6e-10`.
-- Independent phase-1 competitive clearing engine, 26,000 periods: maximum demand residual `2.7e-15`, exact target information loading, price variance within 0.27% of analytic moment.
+- Independent competitive-clearing engine, 26,000 periods: maximum demand residual `2.7e-15`, exact target information loading, price variance within 0.27% of analytic moment.
 - Independent 85,000-period Gaussian time-series moment check; 12 local initializations converge to the same stable fixed point or stable cycle in their tested basins.
 - Observed fixed points and cycles are **numerical witnesses**, not formally interval-certified existence proofs. All examples use the constant-affine Gaussian forecasting head, not general state-dependent variance forecasts.
 
@@ -44,7 +44,6 @@ python cycles.py                      # flip threshold, period-two roots, exact-
 python bounded.py                     # bounded current-price coefficient case
 python independent_engine_check.py    # independent market-engine validation
 python multistart.py                  # neighborhood basin test
-pdflatex -interaction=nonstopmode POPULATION_RETRAINING_NOTE.tex
 ```
 
 ## Files

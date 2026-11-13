@@ -1,72 +1,43 @@
-Slow-fast retraining implementation, 28 October 2026
+Finite neural retraining implementation
 
-Economic baseline: the confirmed capacity/private-importance V2 experiment.
-The eight public coordinates have balanced target loadings and noisy cubic
-releases. theta = sqrt(.8)*theta_old + sqrt(.2)*eta, with unchanged total
-fundamental variance. D = 1.15*theta + epsilon, SD(epsilon)=.43. Private noise
-variances are (.25,.09), masses (.55,.45), risk aversions (.9,1.2), supply SD .9.
+The market has eight public coordinates with balanced target loadings and noisy
+cubic releases. The fundamental follows theta = sqrt(0.8) theta_old +
+sqrt(0.2) eta, and the payout is D = 1.15 theta + epsilon with SD(epsilon)=0.43.
+Private-noise variances are (0.25, 0.09), investor masses are (0.55, 0.45),
+risk aversions are (0.9, 1.2), and supply-noise SD is 0.9.
 
-Adoption x is the high-capacity fraction of group 1, not of the whole market.
-Group 1 has low/high GRUs of widths 4/32, identical 16-period information
-windows and Model-A constant affine heads. Group 2 retains its no-public-
-encoder information class, using its private clue and current price; its
-affine coefficients and residual variance are refitted on every new law.
-All types therefore update within their own unchanged feasible classes.
-The zero-mass low or high cell is still fitted as a counterfactual candidate.
+Adoption x is the high-capacity fraction within group 1. Group 1 uses low- and
+high-capacity GRUs of widths 4 and 32, a 16-period public-information window,
+and constant-affine Gaussian heads. Group 2 uses its private clue and the
+current price, with affine coefficients and residual variance refitted under
+each market law. The zero-mass capacity cell is fitted as a counterfactual
+candidate.
 
-Initial weights are the first three completed V2 confirmation seed pairs.
-No new independent confirmation claim is made for this implementation study.
-At each adoption x in {0,.5,1}, start from the SAME inherited trained profile.
-First simulate the frozen-policy market Q_0^F(x). This is not asserted to be
-an all-low retraining fixed point, nor an adoption shock from such a fixed point.
-Then perform six simultaneous slow updates, retaining all seven deployed states.
+For every x in {0, 0.5, 1}, start from the same inherited profile and simulate
+the frozen-policy market. Then follow six simultaneous retraining updates. At
+each update, freeze deployed policies, generate all training and evaluation data
+from the recursively clearing market, fit permitted policies only after data
+generation is complete, and deploy all newly fitted policies together.
 
-For slow epoch n:
-  1. Freeze encoder weights, final heads, normalizations and group-2 policy.
-  2. Run the competitive market recursively: encoders observe public releases,
-     lagged endogenous price and matured payoff; solve the CURRENT clearing
-     price; feed it only to the NEXT date. Restart each GRU's hidden state at
-     zero for every 16-observation window, exactly as in the training class.
-  3. Generate ALL train/validation/calibration/evaluation data before learning.
-     Each path discards 512 burn-in periods. The training bank consists of
-     512 independent paths with 2048 usable observations each: 1,048,576.
-     Validation and independent head-calibration banks each have 65,536
-     observations; evaluation has 131,072. No windows cross path boundaries.
-  4. Warm-start both GRUs and update encoder and full head on the SAME bank.
-     Split 512 paths into eight disjoint chunks; use one complete pass over
-     each chunk (one pass through the full bank), Adam .001 for five chunks, then
-     decay to .00001 over three. Batch 256, weight penalty 1e-5, clip norm 3.
-     No early stopping, no deployed OLS replacement for the neural models.
-     Freeze inherited normalization to preserve physical predictions at a
-     warm start. Reset optimizer state at each slow update.
-  5. Refit group 2 by OLS using all training observations. Deploy ALL newly
-     fitted policies together only after every fit has finished.
-  6. Generate the next frozen-policy market, then repeat.
+The training bank contains 512 paths by 2,048 usable observations after a
+512-date burn-in (1,048,576 observations). Validation and independent
+head-calibration banks each contain 65,536 observations; evaluation contains
+131,072. No windows cross path boundaries. Both GRUs are warm-started and
+refitted using eight chunks, Adam learning rate 0.001 for five chunks decaying
+to 0.00001 over three, batch size 256, weight penalty 1e-5, and gradient-norm
+clip 3. The group-2 head is refitted by OLS. Optimizer state resets each update;
+normalization remains fixed.
 
-This is a finite-sample, finite-optimization approximation to the population
-best-response map in S3. Six updates do not by themselves establish equilibrium.
-Training improvement is scored on held-out data from Q_n; deployed accuracy
-at n+1 is separately scored on Q_{n+1}. These must not be conflated.
+Primitive streams are indexed by seed, update, and bank. Adoption shares share
+primitive shocks but use recursively recomputed prices. Evaluation streams do
+not enter optimization or selection. Report beta, v, iota, A, J=A^2/0.9^2,
+price moments, held-out MSE, log score, variance calibration, and independent
+full/no-private observer comparisons. J is a structural fresh-price precision
+measure, not mutual information or total price informativeness.
 
-Randomness: seed, slow epoch and bank identify primitive shock streams.
-Adoption rates share primitives, but prices are always recomputed recursively.
-Evaluation primitives are common across slow epochs to sharpen comparisons;
-they are never optimizer inputs or model-selection data. Training data are
-fresh between slow epochs. Initial-condition coupling checks use other banks.
-
-Diagnostics: beta, v, iota, all active types' contributions to A, J=A^2/.9^2,
-price moments, held-out MSE/log score/variance calibration, and private-signal
-incremental prediction value from independent full/no-private OLS heads.
-J is constant within a frozen-policy fast market under Model A. It changes
-across slow updates only when fitted policies change. Do not label J mutual
-information or total price informativeness. No S5 upgrade-utility claim here.
-
-Fast diagnostics compare +/-10 initial prices under identical future shocks
-after burn-in, and compare price moments across the retained path halves.
-Slow diagnostics inspect successive J, forecast and policy changes. A 0.5%
-relative tolerance for three successive updates is a descriptive criterion,
-not proof of global optimality, uniqueness, or a population retraining fixed point.
-
-Implementation tests independently verify clearing, recovery of an analytically
-solvable constant-policy market, finite-window inference, no future-payoff leakage,
-inactive-capacity isolation, path boundaries, and frozen model fingerprints.
+The calculation is a finite-sample, finite-optimization approximation to the
+learning map. Coupled-initial-price and path-moment diagnostics do not establish
+global stability, uniqueness, or a population retraining equilibrium. Unit
+tests verify clearing, analytically solvable constant-policy markets, causal
+timing, inactive-capacity isolation, path boundaries, and frozen-model
+fingerprints.

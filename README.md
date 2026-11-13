@@ -78,23 +78,23 @@ The commands below construct the two empirical components described in Supplemen
 Build the expanding-window public-data forecast comparison and its inference:
 
 ~~~bash
-python3 src/step1_pipeline.py run
-python3 src/step1_inference.py run
-python3 src/step1_information_set_audit.py run
+python3 scripts/run_component.py e1_forecasts run
+python3 scripts/run_component.py e1_inference run
+python3 scripts/run_component.py e1_information_audit run
 ~~~
 
 The quarterly-accounting robustness uses point-in-time Compustat Quarterly inputs:
 
 ~~~bash
-python3 src/step1_pipeline.py run \
+python3 scripts/run_component.py e1_forecasts run \
   --accounting-frequency quarterly \
   --panel data/interim/e1_quarterly_firm_quarter_panel.parquet \
   --output-dir output/e1_quarterly
-python3 src/step1_inference.py run \
+python3 scripts/run_component.py e1_inference run \
   --scores output/e1_quarterly/oos_scores.parquet \
   --folds output/e1_quarterly/oos_folds.csv \
   --output-dir output/e1_quarterly
-python3 src/step1_information_set_audit.py run \
+python3 scripts/run_component.py e1_information_audit run \
   --panel data/interim/e1_quarterly_firm_quarter_panel.parquet \
   --output-dir output/e1_quarterly
 ~~~
@@ -102,14 +102,14 @@ python3 src/step1_information_set_audit.py run \
 Construct the earnings-announcement panel and diagnostic analyses:
 
 ~~~bash
-python3 src/step2_event_panel.py build
-python3 src/step2_rdq_validation.py run
-python3 src/step2_market_expectations.py run
-python3 src/step2_integrated_decomposition.py run
-python3 src/step2_preannouncement_returns.py run
-python3 src/step2_preannouncement_analysis.py run
-python3 src/step2_earnings_persistence.py run
-python3 src/make_si_results.py run
+python3 scripts/run_component.py e1_event_panel build
+python3 scripts/run_component.py e1_rdq_validation run
+python3 scripts/run_component.py e1_market_expectations run
+python3 scripts/run_component.py e1_signal_decomposition run
+python3 scripts/run_component.py e1_preannouncement_returns run
+python3 scripts/run_component.py e1_preannouncement_analysis run
+python3 scripts/run_component.py e1_earnings_persistence run
+python3 scripts/run_component.py e1_make_si run
 ~~~
 
 All inputs, intermediate panels, figures, and aggregate outputs remain local under ignored `data/` and `output/` directories.
@@ -119,27 +119,27 @@ All inputs, intermediate panels, figures, and aggregate outputs remain local und
 The synthetic Gaussian benchmark can be built and inspected without an API call:
 
 ~~~bash
-python3 src/step4_synthetic_v1.py build
-python3 src/step4_synthetic_v1.py dry-run
+python3 scripts/run_component.py e2_synthetic_benchmark build
+python3 scripts/run_component.py e2_synthetic_benchmark dry-run
 ~~~
 
 The real-data workflow first creates anonymous, time-safe dossiers and local audit keys. These commands do not call an external model:
 
 ~~~bash
-python3 src/step4_phase0.py build
-python3 src/step4_phase0.py check
-python3 src/step4_price_v2.py build
-python3 src/step4_v3_task12_build.py build
-python3 src/step4_holdout_build.py build
-python3 src/step4_holdout_treatments.py build
-python3 src/step4_holdout_public_signal_audit.py run
-python3 src/step4_holdout_analyst_signal_audit.py run
+python3 scripts/run_component.py e2_dossiers build
+python3 scripts/run_component.py e2_dossiers check
+python3 scripts/run_component.py e2_price_context build
+python3 scripts/run_component.py e2_development_context build
+python3 scripts/run_component.py e2_replication_sample build
+python3 scripts/run_component.py e2_replication_context build
+python3 scripts/run_component.py e2_public_context_audit run
+python3 scripts/run_component.py e2_analyst_context_audit run
 ~~~
 
 The behavioral analysis writes aggregate-only outputs; it does not expose dossiers, issuer identities, dates, outcomes, or raw model responses:
 
 ~~~bash
-python3 src/step4_holdout_behavioral_replication_analysis.py run
+python3 scripts/run_component.py e2_behavioral_analysis
 ~~~
 
 ## Repository layout
@@ -155,4 +155,4 @@ output/             Ignored local results, figures, and audit records
 
 All matching, model training, and dossier construction are designed to be point in time. In E2, model-visible payloads exclude issuer identifiers, dates, realized outcomes, and price levels. The real-data component measures a model's response to an experimental synthetic clue; it does not test whether a target firm's price history predicts that firm's next earnings surprise.
 
-Please cite the accompanying paper when using this code. Citation metadata will be finalized with the paper's bibliographic details.
+The paper-facing component names, commands, and implementation paths are listed in [`docs/PAPER_COMPONENT_MAP.md`](docs/PAPER_COMPONENT_MAP.md). Please cite the accompanying paper when using this code; citation metadata are in [`CITATION.cff`](CITATION.cff). No open-source license is granted yet, pending a rights review of the included vendor directories.

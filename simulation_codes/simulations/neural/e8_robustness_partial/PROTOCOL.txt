@@ -1,52 +1,29 @@
-E8 learning and measurement robustness, 29 October 2026
-Specified before inspecting new evaluation results. Scope is conditional on the
-nine fixed E6 market laws: three original initial market seeds x adoption0,.5,1.
-Adoption x is the high-capacity share within group1 (55% of total population).
-This is NOT an expansion of independent market seeds, economic calibrations,
-architectures, equilibrium certification, or a completed E9/E10 experiment.
+Partial learning and measurement robustness record
 
-Primary scientific contrasts: E3 T=S_low-S_high, the price-induced narrowing of
-held-out dividend prediction-error gap; E4 CE_high-CE_low for a negligible trader.
-Test whether T rises and the CE upgrade falls between adoption0 and1, retain .5
-for shape, and preserve both size and sign including unfavorable outcomes.
+This directory contains only the available portion of a robustness calculation
+for the nine fixed neural-market profiles (three initial seeds and adoption
+shares 0, 0.5, and 1). It is not a standalone reproduction target. The retained
+materials document two classes of checks: changes in candidate-training
+procedures and alternative public-observer readouts.
 
-Learning comparisons:
-Multipliers count new training after the common E5 warm start, excluding its
-inherited training history; they are not multiples of total lifetime training.
-original_1x: prior E3/E4 fitted candidates (4096 updates,1,048,576 windows per model).
-original_2x and original_4x: continue candidates on the SAME fixed law, adding1 or3
-independent equal-size training blocks; each block repeats the prior8chunk Adam
-schedule and resets optimizer. Thus these are learning-procedure stress tests,
-not a single smoothly annealed longer schedule and not population optimality.
-newrep1_1x and newrep2_1x: same E5 seed-specific initial candidates, fresh independent
-training/validation data AND optimizer shuffling. No new parameter initialization.
-New keys: round92001/92002 for1x replications; round93001/93002/93003 for continuation;
-train bank1, validation bank2; continued models reuse original validation round91000.
-Same keys across adoption; same parameter budgets and no economic retuning.
+Candidate-training checks compare the original fitted candidates, continued
+training on the same fixed market law using one or three additional independent
+training blocks, and two fresh-data refits from the same initial candidates.
+Every block uses the same eight-chunk Adam schedule and resets the optimizer.
+These are checks on finite learning procedures, not population-optimality
+comparisons. Fresh evaluation uses four common shock banks with 256 paths by
+1,024 dates after a 512-date burn-in. Training, validation, calibration, and
+evaluation remain separated.
 
-All five variants evaluated on fresh common shock banks20..23, round91000,
-256 independent paths x1024 periods each, burn512. Original E3/E4 test banks10..13
-are not used to select candidates, hyperparameters, checkpoints, or specifications.
-Calibration: original independent round91000 bank3,128 paths x2048. Encoder-specific
-OLS heads are separately refit on this bank. Preserve neural-head primary E4 and
-OLS high and nested(zL,zH) secondary E4. Payoff innovation integrated exactly;
-log-sum-exp, no clipping. Four new evaluation banks=1,048,576 obs per market/variant.
+Observer-readout checks compare affine public heads with random-Fourier-feature
+heads of widths 64 and 128, with matching price-interaction features. Ridge
+penalties are selected from the fixed grid {1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 0.1,
+1} on a separate validation bank. Observers do not receive a private signal or
+the latent target. The joint public representation includes both lower- and
+higher-capacity encoder features and therefore uses additional computation.
 
-E3 decoder robustness on original_1x candidates only: retain the affine benchmark;
-add public random Fourier features with64 and128 features, and price-interaction
-features of matching size. Normalize on calibration data; select ridge strength
-from {1e-6,1e-5,1e-4,1e-3,1e-2,.1,1} on separate bank4,64paths x1024.
-For computational tractability all decoder checks, including a matched affine-ridge
-control, fit on the first32 calibration paths (65,536 observations), fixed before
-evaluation. Full-sample OLS remains the main benchmark.
-Maps have fixed seeds; price-augmented models retain all public-only features.
-Nested observer includes low public/price features explicitly plus joint low-high features, requiring both encoders and extra decoding computation.
-Evaluation remains banks20..23. No own private signal or latent theta in E3 inputs.
-All widths and ridge grid reported; no selecting a decoder by test performance.
-These are finite supervised predictors, not Bayes risk or mutual information.
-
-Uncertainty: descriptive paired Student-t intervals over3 market seeds, separately
-for every variant. Never count refits or time observations as independent market
-seeds. Report all seed signs and differences against fresh-evaluated original1x.
-CE weight concentration, bank-level estimates, and evaluation noise retained.
-No universal nonlinear information or welfare theorem is inferred from signs.
+Report all seed-level signs, paired descriptive Student-t intervals across the
+three market seeds, evaluation-bank uncertainty, and certainty-equivalent
+weight concentration. Do not count refits or time observations as independent
+market seeds. The available results neither establish nonlinear mutual
+information nor a welfare or equilibrium theorem.

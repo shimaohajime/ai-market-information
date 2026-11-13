@@ -1,43 +1,55 @@
-E3/E4, 29 October 2026. Fixed before examining evaluation outcomes.
-Nine frozen markets: three seeds x adoption {0,.5,1}, E6 both-group arm after six updates.
-These are finite-learning market laws, not certified learning equilibria.
-Negligible price-taking candidates never enter clearing. In each market, low width4
-and high width32 GRU candidates start from the SAME seed-specific E5 pre-adoption
-baseline across adoption levels, then refit independently from market participants.
-Same inherited normalization, context16, one pass of 1,048,576 windows, Adam4096
-updates, original8chunk learning-rate schedule, prediction Gaussian NLL objective.
-No utility optimization or selecting models by evaluation performance.
-Neural validation:64 independent paths x1024. Separate affine-head calibration:
-128 paths x2048. Four independent evaluation banks, each256 paths x1024, burn512.
-SeedSequence[20261028,seed,91000,bank]. Same primitive draws across x and candidates.
-Banks1 train,2 validation,3 calibration,10..13 evaluation. Market prices recomputed.
+Price usefulness and computational-upgrade value in fixed neural markets
 
-E3 primary: public encoder zL versus zH, independently fitted affine dividend heads
-with and without actual current price; NO own private signal in either head.
-Report held-out absolute MSE gain S for low, D for high, T=S-D, and price-free/price
-forecast gaps. Relative MSE gains are secondary. Do not clip negative gains.
-Secondary: explicitly nested public vector(zL,zH), costing both encoders, plus the
-same affine heads. This is an implemented-information check, not a width32-only
-technology or an unrestricted conditional expectation. No mutual information claim.
+The calculation uses nine fixed finite-learning market profiles: three initial
+seeds and three adoption shares (0, 0.5, and 1). The profiles are not treated
+as retraining equilibria. Negligible price-taking candidates never enter market
+clearing. At every adoption share, the low-width (4) and high-width (32) GRU
+candidates share the same seed-specific initial profile and are refitted
+independently from market participants.
 
-E4 primary: learned neural mean and constant variance from prediction training;
-h=(mu-Rf*p)/(gamma*v), gamma=group1 gamma, same own private signal and same price.
-CE=-log E exp(-gamma*h*(D-Rf*p))/gamma, with zero initial wealth normalization.
-Independent current payoff innovation epsilon~N(0,.43^2) integrated analytically:
-logweight=-gamma*h*(lambda*theta-Rf*p)+gamma^2*h^2*.43^2/2.
-Latent theta appears ONLY in scoring, never candidate/observer information.
-Use log-sum-exp, no clipping, no winsorization, no Gaussian posterior CE shortcut.
-Primary upgrade=CE_high-CE_low. Cross-adoption change compares this difference
-between separately refitted candidates on each common frozen law.
-Secondary affine head recalibration: low, high, and nested(zL,zH), common independent
-calibration bank, OLS mean plus training residual variance. Extra fitting and both
-encoders disclosed. Nested features do not ensure better true utility under
-misspecification or finite fitting. These are gross values before compute costs.
+Both candidates use inherited normalization, a 16-date context, one pass over
+1,048,576 training windows, 4,096 Adam updates, and a Gaussian-NLL prediction
+objective. The design does not optimize utility or select models on evaluation
+performance. Validation uses 64 independent paths of 1,024 observations;
+separate affine-head calibration uses 128 paths of 2,048 observations. Four
+independent evaluation banks use 256 paths of 1,024 observations after a
+512-date burn-in. Training, validation, calibration, and evaluation use
+separate bank identifiers. Primitive draws are paired across adoption shares
+and candidates, while market prices are recomputed in every market.
 
-Uncertainty: paired seed contrasts; Student-t df2 intervals descriptive with only3
-training seeds. Separate within-market path bootstrap with bank-stratified resampling
-for evaluation uncertainty conditional on fitted models, not additional training seeds.
-CE tail diagnostics: effective weights, max and top0.1% weights, independent bank
-and half-sample comparisons. Finite diagnostics cannot prove exponential integrability.
-Gaussian benchmark and direct-versus-integrated utility test validate measurement.
-Unchanged market fingerprints and calibration/evaluation separation are audited.
+Price-usefulness measure:
+  Fit affine dividend heads with and without the current price to the low and
+  high public encoders. Neither head observes the candidate's private signal.
+  Report the held-out absolute MSE reduction from price for the low observer
+  (S), the high observer (D), and their difference (T=S-D), along with the
+  price-free and price-inclusive forecast gaps. Relative MSE reductions are
+  secondary and negative gains are retained. A second specification uses the
+  joint public vector (z_low,z_high); it requires both encoders and is reported
+  as an implemented-information check, not as a stand-alone high-capacity model
+  or an unrestricted conditional expectation.
+
+Computational-upgrade value:
+  The primary comparison uses each prediction-trained neural mean and constant
+  variance with the same current price and the same private signal:
+      h = (mu - R_f p) / (gamma v).
+  The certainty equivalent is
+      CE = -log E[exp(-gamma h(D-R_f p))] / gamma,
+  with zero initial wealth. The current Gaussian payoff innovation has standard
+  deviation 0.43 and is integrated analytically. Latent theta is available only
+  for scoring, never as candidate or observer information. Evaluation uses
+  log-sum-exp without clipping, winsorization, or a Gaussian-posterior shortcut.
+  The primary upgrade value is CE_high - CE_low. A secondary affine-head
+  recalibration uses an independent calibration bank and reports low, high, and
+  joint-encoder specifications separately. All values are gross of computation
+  costs.
+
+Uncertainty and validation:
+  Report paired seed contrasts and descriptive Student-t intervals with two
+  degrees of freedom. A bank-stratified path bootstrap quantifies evaluation
+  uncertainty conditional on fitted models; it does not create additional
+  training replications. Report certainty-equivalent weight concentration,
+  independent-bank and half-sample checks, market fingerprints, and the
+  separation of calibration from evaluation. The Gaussian benchmark and the
+  direct-versus-integrated utility calculation validate the measurement code.
+  These finite diagnostics do not establish retraining equilibrium, nonlinear
+  mutual information, aggregate welfare, or net value after computing costs.

@@ -1,65 +1,59 @@
-E9 and E10 prespecified finite-learning experiments, 29 October2026
+Neural learning dynamics and payout-law robustness
 
-E9: continue all9 E6 both-group endpoints from update6 through12, with unchanged
-learning budgets and fresh round-indexed data. At adoption.5 for all3 seeds, also
-run6 updates with COMMON primitive simulation innovations and optimizer order at
-every update. Prices/histories are recomputed after every policy change; this is
-not frozen training data or a population learning map. Four independent one-step
-refits reset to each FRESH update12 adoption.5 profile estimate conditional update
-noise and mean drift. These are4 refits per3 markets, not12 independent markets.
-Metrics: J,A,delta and low/high/other iota. J is analytical A^2/supply variance.
-Operational stability: maximum relative changes in J and all3 iotas below0.5%
-for the final3 updates; late3-state vs preceding3-state J means within1%.
-Fixed-law drift check: each metric's mean percent change +/-t(3)*SE entirely in
-[-1%,1%]. A failure does not prove economic instability; a pass is not equilibrium.
-Period2 screen on each7-state extension: at least4 sign reversals among6 J steps,
-mean lag2 state-return distance / mean lag1 state-change distance <.25, and median
-lag1 distance >.5%. Distances are Euclidean in [J,iotaL,iotaH,iotaOther], scaled by
-update6 levels. Report the continuous diagnostics and noise scale, not merely flag.
-This short experiment cannot rule out longer cycles or prove population convergence.
+Learning-dynamics calculation:
+  Continue the nine finite neural-market profiles from update 6 through update
+  12 with unchanged learning budgets and fresh update-indexed data. At adoption
+  0.5, also repeat six updates using common primitive innovations and optimizer
+  order. Prices and histories are recomputed after every policy update. Four
+  independent one-step refits from each fresh update-12 profile measure
+  conditional update noise and mean drift; they are not independent markets.
 
-E10: matched control plus2 changes to dividends. All other primitives remain fixed.
-Private signals remain theta+noise. Let psi be a unit-variance Gaussian latent
-factor orthogonal to the original latent target under the stationary covariance.
-Control: payoff mean=lambda*theta, noise variance=.43^2.
-Nonaligned: mean=lambda*(sqrt(.8)*theta+sqrt(.2*prior_variance)*psi). Thus20% of the
-fundamental dividend variance comes from a factor absent from the private signal;
-unconditional fundamental variance is matched to control. Not a private-information
-precision measure for the WHOLE dividend: J still measures fresh information on theta.
-Heteroskedastic: mean=lambda*theta; noise variance=.43^2*(1+.6*tanh(public0/SDpublic0)).
-Variance multiplier in(.4,1.6), unconditional mean1 by symmetry. Current variance is
-a function of released public data; current standard-normal payoff noise independent.
-The mean/variance forecasting head remains Model A. Constant fitted variance is
-intentionally misspecified in the heteroskedastic economy. This is NOT Model B.
+Track J, A, the market-clearing slope, and the low-, high-, and other-group
+iota values. J is A^2 divided by supply variance. Descriptive stability screens
+require maximum relative changes in J and all three iotas below 0.5% during the
+final three updates, and late versus preceding three-state J means within 1%.
+A fixed-law drift check places each mean percent change and its t interval in
+[-1%, 1%]. A passing screen is not an equilibrium result and a failing screen
+does not prove economic instability. A period-two diagnostic records sign
+reversals, lag-two versus lag-one distances in [J, iota_low, iota_high,
+iota_other], and the continuous values underlying the screen. The short path
+cannot rule out longer cycles or establish population convergence.
 
-E10 timeline deliberately separates stages and includes its OWN matched control:
-(1) Start each economy's inherited all-low law with identical E5 policies; refit
-low/high and group2 on that law. All3 variants use the same full learning budgets.
-(2) Compare adoption0,.5,1 using the newly fitted profile; group2 unchanged acrossx.
-The immediate J contrast is analytical. Both alternatives were fitted on the same
-inherited law. Simulate the frozen-profile history adjustment separately.
-(3) On each of the27 resulting frozen laws (3economies x3seeds x3adoption), refit
-negligible low/high candidates from that economy's common stage1 profile, then
-measure E3/E4. No further market-participant retraining or equilibrium claim.
-Consequently do NOT compare these levels as if they were the E6 six-update laws.
+Payout-law robustness calculation:
+  Compare a matched control with two alternative payout processes, holding all
+other primitives fixed. Private signals remain theta plus noise. In the
+nonaligned specification, 20% of fundamental dividend variance arises from an
+orthogonal factor absent from the private signal while unconditional variance
+matches the control. In the heteroskedastic specification, payout noise variance
+is 0.43^2[1+0.6 tanh(public0/SD(public0))], so the multiplier lies in (0.4,1.6)
+and has unconditional mean one. The forecasting head remains constant-affine;
+the heteroskedastic setting therefore intentionally uses a misspecified constant
+forecast variance. J continues to measure fresh information about theta, not
+about the full dividend.
 
-Training per model/refit:512paths x2048 windows,8chunks,4096 Adam updates;
-validation64paths x1024; independent head calibration128paths x2048;
-evaluation4banks x256paths x1024. Burn512,context16, original frozen normalization.
-E9 training keys60000+n and common95000; audit96000+rep; banks1train,50validation.
-E10 stage1 key101000; candidate training102000; calibration103000 bank3;
-evaluation103000 banks20..23. Matched primitive streams across adoption/economies.
-E3: affine public-only heads with/without price; low,high,and explicit nested z.
-E4: primary prediction-trained neural heads; secondary OLS low/high/nested heads.
-Integrate current Gaussian payoff innovation using mode-specific true payoff mean
-and state-dependent noise variance. No Gaussian posterior CE shortcut or clipping.
-Latents only in scoring, never forecast inputs. All comparisons gross of compute cost.
-Uncertainty across3 original market seeds; separately report conditional evaluation
-uncertainty and weight concentration. All adverse signs retained, no parameter tuning.
+For each payout law, refit low, high, and group-2 policies on a common inherited
+law, compare adoption shares 0, 0.5, and 1, then simulate the associated
+frozen-policy history adjustment. On every resulting law, refit negligible
+low- and high-capacity candidates from the common starting profile and measure
+the price-usefulness and computational-upgrade outcomes. No additional
+market-participant retraining is performed in this calculation.
 
-Supplementary E9 functional diagnostic: all round6..12 policies are evaluated on
-ONE immutable round6 market-law anchor (key94000,bank60,128paths x1024) per seed/x.
-Track RMS forecast changes normalized by payoff SD and RMS order changes normalized
-by initial order RMS for low/high/other rules. This guards against treating stable
-J/iota as evidence that the entire policy is unchanged. It is a held-out functional
-diagnostic on one law, not a proof of equality on every possible history.
+Each model or refit uses 512 paths by 2,048 windows and eight training chunks
+(4,096 Adam updates); validation uses 64 paths by 1,024 dates, independent
+head calibration uses 128 paths by 2,048 dates, and evaluation uses four banks
+of 256 paths by 1,024 dates after a 512-date burn-in with a 16-date context.
+Primitive streams are matched across adoption shares and payout laws. Public
+observer heads are fitted with and without the current price; primary upgrade
+values use prediction-trained neural heads and secondary checks use affine
+low, high, and joint-encoder heads. Current Gaussian payoff noise is integrated
+using its true mean and variance without clipping or a Gaussian-posterior
+shortcut. Latent variables are available only for scoring. All values are gross
+of computation costs.
+
+Report descriptive uncertainty across the three initial market seeds, conditional
+evaluation uncertainty, and exponential-weight concentration. A functional
+diagnostic evaluates policies from updates 6--12 on one immutable update-6
+market-law anchor per seed and adoption share, tracking normalized RMS forecast
+and order changes. It guards against treating stability of J or iota as equality
+of complete policies. None of these calculations certify a population learning
+equilibrium or a universal information or welfare theorem.
