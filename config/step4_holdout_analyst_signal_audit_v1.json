@@ -1,0 +1,36 @@
+{
+  "holdout_selection_config": "config/step4_holdout_v1.json",
+  "holdout_final_root": "data/interim/step4_holdout_v1/final",
+  "holdout_dossier_filename": "step4_holdout_dossiers.jsonl",
+  "holdout_outcome_filename": "step4_holdout_outcome_key.parquet",
+  "holdout_placebo_mapping_filename": "step4_holdout_placebo_mapping_private.csv",
+  "holdout_candidate_key": "data/interim/step4_holdout_v1/base/step4_candidate_key.parquet",
+  "ibes_stats_path": "data/raw/ibes/IBES_statsumu_epsus.csv.gz",
+  "interim_root": "data/interim/step4_holdout_v1/analyst_signal_audit",
+  "output_root": "output/step4_holdout_v1",
+  "training": {
+    "formation_years": [2012, 2013, 2014, 2015, 2016],
+    "candidates_per_year": 100,
+    "selection_seed": "step4-holdout-public-signal-training-v1",
+    "one_observation_per_permno": true,
+    "minimum_qualified_training_dossiers": 450
+  },
+  "analyst_signal": {
+    "measure": "EPS",
+    "fiscal_period": "QTR",
+    "fpi": 6,
+    "maximum_statpers_age_days": 45,
+    "minimum_announcement_minus_fiscal_end_days": 10,
+    "maximum_announcement_minus_fiscal_end_days": 150,
+    "minimum_fiscal_end_minus_formation_days": -45,
+    "maximum_fiscal_end_minus_formation_days": 45,
+    "revision_lookback_days": 28,
+    "revision_scale_floor": 0.01
+  },
+  "ridge_alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+  "analysis": {
+    "bootstrap_repetitions": 10000,
+    "bootstrap_seed": 20261111,
+    "gate_requires_upper_ci_below_zero": true
+  }
+}

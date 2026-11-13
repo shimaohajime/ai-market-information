@@ -1,0 +1,19 @@
+{
+  "name": "step4_forecast",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "forecast_mean": {
+        "type": "number",
+        "description": "Forecast mean of the next standardized EPS surprise, in the unit defined in the prompt."
+      },
+      "forecast_sd": {
+        "type": "number",
+        "description": "Strictly positive subjective standard deviation in the same unit."
+      }
+    },
+    "required": ["forecast_mean", "forecast_sd"]
+  }
+}

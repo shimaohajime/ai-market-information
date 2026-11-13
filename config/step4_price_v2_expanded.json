@@ -1,0 +1,16 @@
+{
+  "base_interim_root": "data/interim/step4",
+  "interim_root": "data/interim/step4_price_v2_expanded",
+  "daily_crsp_path": "data/raw/crsp/crsp_daily_stock_2010_2025.csv.gz",
+  "selection": {
+    "mode": "all_phase0_candidates"
+  },
+  "history": {
+    "cutoff_rule": "strictly_before_formation_date",
+    "daily_recent_days": 60,
+    "weekly_history_weeks": 52,
+    "trading_days_per_week": 5,
+    "minimum_daily_observations": 260,
+    "round_digits": 4
+  }
+}

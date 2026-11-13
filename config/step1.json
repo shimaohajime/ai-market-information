@@ -1,0 +1,10 @@
+{
+  "formation_start": "2011-03-31",
+  "formation_end": "2025-12-31",
+  "first_oos_year": 2018,
+  "outcome": "I/B/E/S quarterly-EPS SUE (first announcement strictly after formation, within 180 days)",
+  "loss": "Gaussian pseudo-log-loss with a common, training-only target scale within each OOS year",
+  "low_compute": "Ridge regression using current publicly available annual accounting data and simple lagged return features",
+  "high_compute": "Histogram gradient boosting using the Low feature set plus longer lag histories and nonlinear interactions",
+  "price_snapshot": "Formation-month price, market equity, and same-month return; these appear only in the price-added specifications"
+}

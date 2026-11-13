@@ -1,0 +1,110 @@
+{
+  "panel_path": "data/interim/step1_firm_quarter_panel.parquet",
+  "ccm_link_path": "data/raw/crsp/compustat_crsp_link.csv",
+  "interim_root": "data/interim/step4",
+  "output_root": "output/step4",
+  "selection": {
+    "candidate_count": 20,
+    "phase1_dossier_count": 3,
+    "formation_years": [2012, 2013, 2014, 2015, 2016],
+    "candidates_per_year": 4,
+    "minimum_days_to_announcement": 30,
+    "maximum_days_to_announcement": 150,
+    "maximum_statement_age_days": 450,
+    "one_dossier_per_permno": true,
+    "selection_seed": "step4-phase0-v1",
+    "required_features": [
+      "log_market_equity_lag1",
+      "operating_profitability",
+      "roa",
+      "asset_growth",
+      "leverage",
+      "cash_holdings",
+      "accruals",
+      "sales_growth",
+      "tangibility",
+      "statement_age_days",
+      "return_1m_lag1",
+      "return_3m_lag1",
+      "return_6m_lag1",
+      "return_12m_lag1",
+      "return_24m_lag1",
+      "return_volatility_12m_lag1",
+      "analyst_coverage"
+    ]
+  },
+  "dossier": {
+    "version": "v1_tabular_anonymous",
+    "round_digits": 4,
+    "accounting_features": [
+      "operating_profitability",
+      "roa",
+      "asset_growth",
+      "leverage",
+      "cash_holdings",
+      "accruals",
+      "sales_growth",
+      "tangibility"
+    ],
+    "return_features": [
+      "return_1m_lag1",
+      "return_3m_lag1",
+      "return_6m_lag1",
+      "return_12m_lag1",
+      "return_24m_lag1",
+      "return_volatility_12m_lag1"
+    ],
+    "excluded_columns": [
+      "permno",
+      "cusip",
+      "ibes_ticker",
+      "formation_date",
+      "stock_price",
+      "market_equity",
+      "stock_return",
+      "current_log_price",
+      "current_log_market_equity",
+      "current_return_1m",
+      "next_announcement_date",
+      "next_actual_eps",
+      "next_surprise_mean",
+      "next_surprise_stdev",
+      "next_sue"
+    ]
+  },
+  "private_clue": {
+    "signal_values": [-0.8, 0.0, 0.8],
+    "noise_sds": [0.7, 1.4],
+    "no_clue_control": true
+  },
+  "outcome": {
+    "name": "theta_ex_ante",
+    "definition": "I/B/E/S next_sue robustly centered and scaled using only distinct announcement outcomes strictly before each formation date; values are clipped at 8 robust scale units before standardization.",
+    "minimum_preformation_history": 100
+  },
+  "execution": {
+    "api": "Responses API",
+    "model": "gpt-6.1-sol",
+    "reasoning_mode": "standard",
+    "phase1_efforts": ["low", "high"],
+    "phase2_efforts": ["low", "medium", "high"],
+    "phase1_replicates": 3,
+    "max_output_tokens": 25000,
+    "fresh_session_per_call": true,
+    "allow_tools": false,
+    "store": false,
+    "prompt_schema": "prompt_templates/step4_response_schema.json"
+  },
+  "cost_assumptions": {
+    "pricing_checked_on": "2026-11-10",
+    "pricing_source": "https://developers.openai.com/api/docs/pricing",
+    "input_usd_per_million_tokens": 2.0,
+    "output_usd_per_million_tokens": 10.0,
+    "input_tokens_per_call": 1600,
+    "expected_output_tokens_by_effort": {
+      "low": 1500,
+      "medium": 3000,
+      "high": 8000
+    }
+  }
+}

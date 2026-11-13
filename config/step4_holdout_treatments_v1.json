@@ -1,0 +1,16 @@
+{
+  "source_interim_root": "data/interim/step4_holdout_v1/rich_price",
+  "source_candidate_key": "data/interim/step4_holdout_v1/base/step4_candidate_key.parquet",
+  "interim_root": "data/interim/step4_holdout_v1/final",
+  "output_root": "output/step4_holdout_v1",
+  "placebo": {
+    "matched_donor_seed": "step4-holdout-matched-placebo-v1",
+    "time_permutation_seed": "step4-holdout-time-permutation-v1",
+    "donor_must_end_on_or_before_target_formation": true,
+    "preserves": [
+      "target market-return sequence",
+      "target abnormal-return marginal distribution separately in weekly and daily segments",
+      "path length and anonymous numeric format"
+    ]
+  }
+}

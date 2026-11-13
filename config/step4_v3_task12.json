@@ -1,0 +1,62 @@
+{
+  "interim_root": "data/interim/step4_v3_task12",
+  "source_interim_root": "data/interim/step4_price_v2_expanded",
+  "source_candidate_key": "data/interim/step4/step4_candidate_key.parquet",
+  "output_root": "output/step4_v3_task12",
+  "placebo": {
+    "version": "v1_pre_cutoff_matched_abnormal_return_path",
+    "selection_seed": "step4-v3-placebo-v1",
+    "prefer_different_industry": true,
+    "donor_must_end_on_or_before_target_formation": true
+  },
+  "models": {
+    "gpt6": {
+      "model": "gpt-6.1-sol",
+      "input_usd_per_million_tokens": 2.0,
+      "output_usd_per_million_tokens": 10.0
+    },
+    "gpt52": {
+      "model": "gpt-5.2-2025-12-11",
+      "input_usd_per_million_tokens": 1.75,
+      "output_usd_per_million_tokens": 14.0
+    }
+  },
+  "execution": {
+    "reasoning_effort": "high",
+    "max_output_tokens": 25000,
+    "store": false,
+    "max_workers": 4,
+    "answer_tolerance": 0.0005
+  },
+  "tasks": {
+    "competence": {
+      "replicates": 1,
+      "maximum_allowed_cost_usd": {
+        "gpt6": 22.0,
+        "gpt52": 30.0
+      }
+    },
+    "public_forecast": {
+      "replicates": 3,
+      "price_conditions": ["no_price", "informative_price_path"],
+      "maximum_allowed_cost_usd": {
+        "gpt6": 33.0,
+        "gpt52": 45.0
+      }
+    },
+    "mechanism": {
+      "replicates": 3,
+      "price_conditions": ["no_price", "informative_price_path", "matched_placebo_path"],
+      "signal_values": [-0.8, 0.8],
+      "signal_noise_sd": 0.7,
+      "maximum_allowed_cost_usd": {
+        "gpt6": 95.0,
+        "gpt52": 132.0
+      }
+    }
+  },
+  "analysis": {
+    "bootstrap_repetitions": 10000,
+    "bootstrap_seed": 20261110
+  }
+}

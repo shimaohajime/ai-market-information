@@ -1,0 +1,52 @@
+# Python and operating-system artifacts
+__pycache__/
+.pytest_cache/
+.DS_Store
+.venv/
+
+# Credentials and local environment configuration
+.env
+.env.*
+!.env.example
+openai_api[.]txt
+*.pem
+*.key
+
+# Proprietary inputs, local intermediates, and raw API records
+/data/
+/output/
+*.parquet
+*.feather
+*.csv
+*.csv.gz
+*.tsv
+*.tsv.gz
+*.jsonl
+*.xlsx
+
+# Internal working notes and code outside the paper replication package
+/STEP*.md
+/step4_protocol.md
+/src/step3_*.py
+/config/step3_*
+/src/step4_phase1.py
+/src/step4_phase1_report.py
+/src/step4_price_v2_probe.py
+/src/step4_price_v2_forecast_probe.py
+/src/step4_price_v2_forecast_aggregate.py
+/src/step4_price_v2_model_aggregate.py
+/src/step4_price_v2_expanded_runner.py
+/config/step4_price_v2_probe.json
+/config/step4_price_v2_forecast_probe.json
+/config/step4_price_v2_expanded_gpt6.json
+/config/step4_price_v2_expanded_gpt52.json
+/config/step4_price_v2_model_probe_gpt52.json
+/config/step4_synthetic_v2_pilot.json
+/config/step4_synthetic_v2_retry.json
+/config/step4_v3_task12_public_placebo.json
+/prompt_templates/step4_check_response_schema.json
+/prompt_templates/step4_price_v2_check_system.md
+/prompt_templates/step4_price_v2_check_user.md
+/prompt_templates/step4_price_v2_forecast_system.md
+/prompt_templates/step4_price_v2_forecast_user.md
+/AI_Trading_GitHub_Ready_Repository_2026-11-13.zip

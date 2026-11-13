@@ -1,0 +1,22 @@
+{
+  "experiment_id": "step4_synthetic_v1_pilot",
+  "interim_root": "data/interim/step4_synthetic_v1_pilot",
+  "output_root": "output/step4_synthetic_v1_pilot",
+  "rng_seed": 20261110,
+  "case_count": 4,
+  "replicates": 1,
+  "prior_sd": 1.0,
+  "price_observation_count": 12,
+  "linked_observation_count_low": 2,
+  "price_noise_sd": 1.5,
+  "private_clue_noise_sd": 0.7,
+  "private_clue_values": [-0.8, 0.8],
+  "information_conditions": ["low_public_precision", "high_public_precision", "placebo_public_tape"],
+  "models": {
+    "gpt6": {"model": "gpt-6.1-sol", "input_usd_per_million_tokens": 2.0, "output_usd_per_million_tokens": 10.0},
+    "gpt52": {"model": "gpt-5.2-2025-12-11", "input_usd_per_million_tokens": 1.75, "output_usd_per_million_tokens": 14.0}
+  },
+  "execution": {"reasoning_effort": "high", "max_output_tokens": 2000, "store": false, "max_workers": 4},
+  "maximum_allowed_cost_usd": {"gpt6": 3.0, "gpt52": 4.0},
+  "analysis": {"bootstrap_repetitions": 10000, "bootstrap_seed": 20261110}
+}

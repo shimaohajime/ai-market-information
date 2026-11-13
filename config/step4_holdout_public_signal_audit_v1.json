@@ -1,0 +1,32 @@
+{
+  "holdout_selection_config": "config/step4_holdout_v1.json",
+  "holdout_final_root": "data/interim/step4_holdout_v1/final",
+  "holdout_dossier_filename": "step4_holdout_dossiers.jsonl",
+  "holdout_outcome_filename": "step4_holdout_outcome_key.parquet",
+  "daily_crsp_path": "data/raw/crsp/crsp_daily_stock_2010_2025.csv.gz",
+  "interim_root": "data/interim/step4_holdout_v1/public_signal_audit",
+  "output_root": "output/step4_holdout_v1",
+  "training": {
+    "formation_years": [2012, 2013, 2014, 2015, 2016],
+    "candidates_per_year": 100,
+    "selection_seed": "step4-holdout-public-signal-training-v1",
+    "one_observation_per_permno": true
+  },
+  "history": {
+    "cutoff_rule": "strictly_before_formation_date",
+    "daily_recent_days": 60,
+    "weekly_history_weeks": 52,
+    "trading_days_per_week": 5,
+    "minimum_daily_observations": 260,
+    "round_digits": 4
+  },
+  "features": {
+    "return_windows_days": [5, 20, 60, 120, 260],
+    "ridge_alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]
+  },
+  "analysis": {
+    "bootstrap_repetitions": 10000,
+    "bootstrap_seed": 20261111,
+    "gate_requires_upper_ci_below_zero": true
+  }
+}

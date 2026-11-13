@@ -1,0 +1,43 @@
+{
+  "experiment_id": "step4_holdout_behavioral_replication_v1",
+  "interim_root": "data/interim/step4_holdout_v1/final",
+  "dossier_filename": "step4_holdout_dossiers.jsonl",
+  "checks_filename": "step4_holdout_competence_checks.csv",
+  "output_root": "output/step4_holdout_behavioral_replication_v1",
+  "models": {
+    "gpt6": {
+      "model": "gpt-6.1-sol",
+      "input_usd_per_million_tokens": 2.0,
+      "output_usd_per_million_tokens": 10.0
+    },
+    "gpt52": {
+      "model": "gpt-5.2-2025-12-11",
+      "input_usd_per_million_tokens": 1.75,
+      "output_usd_per_million_tokens": 14.0
+    }
+  },
+  "execution": {
+    "reasoning_effort": "high",
+    "max_output_tokens": 25000,
+    "store": false,
+    "max_workers": 3,
+    "answer_tolerance": 0.0005,
+    "connection_retry_attempts": 3
+  },
+  "tasks": {
+    "mechanism": {
+      "replicates": 3,
+      "price_conditions": [
+        "no_price",
+        "informative_price_path"
+      ],
+      "signal_values": [-0.8, 0.8],
+      "signal_noise_sd": 0.7,
+      "maximum_allowed_cost_usd": {"gpt6": 190.0, "gpt52": 260.0}
+    }
+  },
+  "analysis": {
+    "bootstrap_repetitions": 10000,
+    "bootstrap_seed": 20261111
+  }
+}
