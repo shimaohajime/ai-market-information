@@ -1,6 +1,6 @@
 # AI Market Information: Research Code
 
-This repository is the public replication package for the accompanying research paper. It contains the code for counterfactual public-information processing, an earnings-announcement event study, and controlled LLM experiments.
+This repository is the public replication package for the accompanying research paper. It contains population and neural market simulations, counterfactual public-information processing, an earnings-announcement event study, and controlled LLM experiments.
 
 Only public code, configurations, and prompt templates are versioned. The repository does **not** contain licensed financial data, raw API responses, firm identifiers, anonymous dossiers, outcome keys, internal notes, or credentials.
 
@@ -8,6 +8,7 @@ Only public code, configurations, and prompt templates are versioned. The reposi
 
 - **Step 1 — Counterfactual public-information processing.** Compares limited and richer processors of the same public financial records on common expanding-window out-of-sample firm-quarter observations.
 - **Step 2 — Earnings-announcement event study.** Compares the announcement-return loading of pre-specified forecast increments with residual earnings-surprise news. It includes RDQ date validation, an independent-basis decomposition, alternative event windows, and diagnostic tests.
+- **Simulation study.** Includes the Gaussian population benchmarks and finite neural-market experiments that study price information, first deployment, retraining, adoption, and robustness. See §simulation_codes/README.md§.
 - **Step 4 — Controlled LLM experiment.** Provides synthetic benchmarks and anonymous, time-safe real-data contexts. API calls are explicitly gated and all request/response records remain local.
 
 These analyses do not measure actual asset-manager AI adoption or identify a causal effect of AI adoption on market prices.
@@ -141,6 +142,7 @@ Any `execute` subcommand makes paid API calls. Review its versioned configuratio
 src/                Construction, estimation, inference, and figure code
 config/             Public analysis configurations
 prompt_templates/   Versioned prompt and strict-JSON response contracts
+simulation_codes/   Population and neural market-simulation package
 data/               Ignored licensed inputs and local intermediate files
 output/             Ignored local results, figures, and audit records
 ~~~

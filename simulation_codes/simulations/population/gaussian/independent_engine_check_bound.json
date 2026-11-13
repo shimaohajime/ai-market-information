@@ -1,0 +1,19 @@
+{
+  "n": 11000,
+  "caps": [
+    3,
+    0
+  ],
+  "max_clearing_residual": 1.5543122344752192e-15,
+  "analytic_price_variance": 0.5264845503121364,
+  "empirical_price_variance": 0.512537819914345,
+  "price_variance_relative_error": -0.02649029375985068,
+  "analytic_price_payoff_covariance": 0.4994607836710293,
+  "empirical_price_payoff_covariance": 0.4855076667440269,
+  "price_payoff_cov_relerr": -0.02793636133841626,
+  "chi_bound": 0.45,
+  "supply_noise_sd": 0.62,
+  "stationary_j": 3.7246128707949593,
+  "empirical_loading_J": 3.7246128707953914,
+  "min_clearing_slope": 1.9957469580498433
+}

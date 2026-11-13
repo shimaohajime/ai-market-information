@@ -50,3 +50,17 @@ openai_api[.]txt
 /prompt_templates/step4_price_v2_forecast_system.md
 /prompt_templates/step4_price_v2_forecast_user.md
 /AI_Trading_GitHub_Ready_Repository_2026-11-13.zip
+
+# The public simulation package has its own reproducibility scope.
+# Keep publication source, duplicated empirical code, and assembly notes local.
+/simulation_codes/paper/
+/simulation_codes/empirical/
+/simulation_codes/docs/ASSEMBLY_AUDIT.md
+/simulation_codes/docs/EMPIRICAL_CODE_HANDOFF.md
+/simulation_codes/docs/GITHUB_SETUP.md
+/simulation_codes/docs/PACKAGE_SUMMARY.json
+/simulation_codes/docs/RELEASE_CHECKLIST.md
+/simulation_codes/docs/SOURCE_ARCHIVE_MANIFEST.json
+/simulation_codes/docs/SOURCE_PROVENANCE.md
+/simulation_codes/tools/import_codex_empirical.py
+!/simulation_codes/results/aggregate/**/*.csv

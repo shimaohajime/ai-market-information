@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-28",
+  "seeds": [
+    101,
+    211,
+    307,
+    401,
+    503,
+    601,
+    701,
+    809,
+    907,
+    1009
+  ],
+  "scenarios": [
+    "linear_public",
+    "nonlinear_public"
+  ],
+  "context": 32,
+  "train_periods": 5000,
+  "calibration_periods": 60000,
+  "evaluation_banks": 4,
+  "evaluation_periods": 12000,
+  "burn": 600,
+  "steps": 450,
+  "patience": 6,
+  "batch_size": 128,
+  "lr": 0.005,
+  "hidden_low": 4,
+  "hidden_high": 12,
+  "ema_decay": 0.8,
+  "public_cubic_strength": 0.5
+}

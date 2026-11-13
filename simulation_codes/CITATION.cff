@@ -1,0 +1,6 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper."
+authors:
+  - family-names: Shimao
+    given-names: Hajime
+title: "The Opposing Informational Effects of AI Trading"

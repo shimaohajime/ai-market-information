@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-28",
+  "context": 16,
+  "batch_size": 256,
+  "lr": 0.005,
+  "lr_end": 1e-05,
+  "weight_decay": 1e-05,
+  "pilot_periods": 80000,
+  "confirmation_periods": 200000,
+  "pilot_epochs": [
+    12,
+    8
+  ],
+  "confirmation_epochs": [
+    20,
+    12
+  ],
+  "pilot_seeds": [
+    16001,
+    17011
+  ],
+  "confirmation_seeds": [
+    18013,
+    19031,
+    20047,
+    21059,
+    22067,
+    23071,
+    24083,
+    25097,
+    26101,
+    27109
+  ],
+  "calibration_periods_pilot": 50000,
+  "calibration_periods_confirmation": 120000,
+  "evaluation_periods": 20000,
+  "evaluation_banks": 4,
+  "public_cubic_strength": 2.0,
+  "public_noise_sd": 0.2,
+  "candidates": [
+    {
+      "name": "balanced8_r20_n25",
+      "dimension": 8,
+      "public_map": "balanced",
+      "rho": 0.2,
+      "nu0": 0.25,
+      "low": 4,
+      "high": 32
+    },
+    {
+      "name": "balanced16_r20_n25",
+      "dimension": 16,
+      "public_map": "balanced",
+      "rho": 0.2,
+      "nu0": 0.25,
+      "low": 4,
+      "high": 32
+    },
+    {
+      "name": "balanced16_r30_n50",
+      "dimension": 16,
+      "public_map": "balanced",
+      "rho": 0.3,
+      "nu0": 0.5,
+      "low": 4,
+      "high": 32
+    },
+    {
+      "name": "bridge8_r20_n25",
+      "dimension": 8,
+      "public_map": "direct",
+      "rho": 0.2,
+      "nu0": 0.25,
+      "low": 1,
+      "high": 16
+    }
+  ],
+  "min_MSE_gain_pct": 2.0,
+  "min_pilot_each_MSE_gain_pct": 1.0,
+  "min_private_gain_pct": 5.0,
+  "confirmation_lower_MSE_gain_pct": 1.0,
+  "workers": 4,
+  "stream_pilot_periods": 80000,
+  "stream_pilot_epochs": [
+    12,
+    8
+  ],
+  "stream_pilot_seeds": [
+    16001,
+    17011
+  ],
+  "calibration_periods_stream_pilot": 50000,
+  "stream_training_phases": [
+    "stream_pilot",
+    "confirmation"
+  ]
+}

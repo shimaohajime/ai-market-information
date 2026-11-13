@@ -1,0 +1,17 @@
+{
+  "n": 26000,
+  "caps": [
+    3,
+    0
+  ],
+  "max_clearing_residual": 2.6645352591003757e-15,
+  "analytic_price_variance": 0.5993348813926859,
+  "empirical_price_variance": 0.6009284056617826,
+  "price_variance_relative_error": 0.002658821167548009,
+  "analytic_price_payoff_covariance": 0.4934341255735701,
+  "empirical_price_payoff_covariance": 0.49953847636618476,
+  "price_payoff_cov_relerr": 0.012371156505478709,
+  "stationary_j": 2.0735141012026763,
+  "empirical_loading_J": 2.073514101199985,
+  "min_clearing_slope": 2.107883052881564
+}

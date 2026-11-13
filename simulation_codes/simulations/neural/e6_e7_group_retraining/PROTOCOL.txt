@@ -1,0 +1,102 @@
+E6 group-specific retraining with E7 accounting - 29 October 2026
+
+Fixed starting profiles: three all-low (x=0) update-12 checkpoints from E5.
+They did not pass the E5 convergence criteria. All claims below are comparisons
+at fixed finite horizons from these candidate baselines, not equilibrium
+comparative statics. The high model is an inactive candidate fitted under the
+previous slow law, just as the last fit of the active low model precedes its
+current deployed law. No fresh baseline refitting is performed here.
+
+Design: 3 inherited initial seeds x 3 adoption shares (0,.5,1) x 4 arms.
+Shares refer to high-model adoption within group 1, which has population mass
+.55. Both private-signal precisions, risk preferences and all primitives are
+held fixed. The four arms are none, group1, group2 and both. Group1 updates
+both GRUs, including the counterfactual inactive model at x=0 or x=1. Group2
+uses only private signal and price and refits its affine head and variance.
+
+At each adoption share, all four arms start with identical model parameters.
+The initial market Q0(x) is the frozen-policy fast law after changing adoption
+from the common all-low baseline. Thus stage 0 is after price-history adjustment.
+A separate E7 initial-adoption calculation uses inherited all-low histories.
+In Model A, J is identical at initial impact and after frozen-policy adjustment.
+
+Run SIX simultaneous slow updates in the three updating arms, with all seven
+states saved. At each update, generate the entire training bank first, then
+fit only the permitted groups. The other group's parameters and normalization
+remain exactly unchanged, although forecasts can respond to changing histories.
+All permitted updates are deployed together. Each arm generates its own
+endogenous prices and training histories. The none arm simulates its unchanged
+fast law once; its exact fixed profile and common-evaluation metrics are reused
+at every horizon. This is not counted as seven independently simulated states.
+
+Training observations: 512 independent paths x 2048 dates = 1,048,576.
+Burn-in: 512; context: 16 dates, no windows across paths. Neural validation:
+64 x 1024; held-out evaluation: 128 x 1024. The separate E5 head-calibration
+bank is not needed here, because E6/E7 concern deployed coefficients rather
+than private-signal incremental prediction value. Model A, widths 4 and 32,
+constant affine heads; inherited normalization; Adam and the E5 one-pass,
+eight-chunk schedule unchanged. Learning uses the S2 prediction loss, not
+trading profits or an optimized mechanism statistic.
+
+Random streams: training uses seed, 60000+slow_round, bank 1; validation uses
+bank 50. Evaluation uses seed, 70000, bank 60 at all horizons. Arm and adoption
+share are intentionally excluded from primitive and optimizer random keys.
+Prices are always recursively recomputed for each arm. This provides common
+random numbers without copying prices across different economic laws. Test
+streams are separate from every training stream. There is no sign-based
+selection, seed dropping, or stopping rule based on the observed effect.
+
+E6 estimands, for Y = J (also A and group contributions):
+  R_arm(x,n) = Y_arm(x,n) - Y_none(x,0): raw retraining response.
+  T_arm(x,n) = R_arm(x,n) - R_arm(0,n): adoption-specific extra retraining.
+The x=0 comparator uses the SAME update arm, horizon and initial seed. It
+controls for ordinary residual adaptation of the imperfect baseline.
+  I(x,n) = Y_both - Y_group1 - Y_group2 + Y_none.
+  T_both = T_group1 + T_group2 + [I(x,n)-I(0,n)].
+Also report the direct frozen/impact adoption effect and the total effect
+Y_arm(x,n)-Y_arm(0,n). All additive percentage decompositions use the single
+fixed denominator Y_none(0,0) within each seed. Report seed-level values,
+paired means and t intervals over the three seed-level contrasts (df=2).
+Do not treat dates or the correlated arms as independent initial seeds.
+
+E7 mechanism diagnostic: on exactly the same inherited history, theta and
+supply realizations, clear four post-fit profiles: old mean/old variance,
+new mean/old variance, old mean/new variance, new mean/new variance. Mean
+means the whole fitted forecast mean, including encoder, intercept, private
+slope and price slope. Variance means only the constant fitted v. These are
+post-fit swaps, NOT separately optimized predictors or retrained equilibria.
+Record both mixed profiles and the interaction. Allocate the interaction
+symmetrically via the two-order (Shapley) decomposition:
+  Mean = .5[(Y10-Y00)+(Y11-Y01)]
+  Risk = .5[(Y01-Y00)+(Y11-Y10)].
+These sum exactly to Y11-Y00. For J, the mean channel works through beta,
+while v changes the risk-adjusted demand response beta/(gamma*v).
+
+For structural J, A and each iota, sum the per-update contributions over
+updates: this telescopes exactly because those statistics do not depend on
+the history distribution under Model A. Subtract the corresponding x=0 sum
+to obtain adoption-specific cumulative mean/risk effects. For price variance,
+the swap is only a one-auction diagnostic on the old law; its per-update
+contributions must NOT be interpreted as the total change in the next law's
+price variance or summed into a stationary-market accounting identity.
+
+A separate initial-adoption E7 diagnostic changes the upgrading cell from
+low mean/low v to high mean/high v under inherited all-low histories. Its
+contributions are kept distinct from cumulative retraining contributions.
+
+Validation: existing six engine tests plus four tests of the new accounting.
+Check identical round-0 profiles across all arms, exact freezing of disabled
+groups, first-update equivalence of corresponding permitted fits, no change
+during data generation, generation before learning, saved-next/deployed-next
+continuity, positive clearing slope, clearing residual, initial-price coupling,
+all E7 identities and all E6 factorial/control identities. Initial high/low
+models and accepted manuscript files remain unchanged.
+
+Interaction diagnostic: J=A^2/supply_variance is nonlinear. For each x,n,
+write a0,a1,a2,ab for aggregate A in the four arms. The J interaction is
+2(a1-a0)(a2-a0)/supply_variance plus
+[ab^2-(a1+a2-a0)^2]/supply_variance. The first term is mechanical; the second
+reflects nonadditivity in learned A. Subtract x=0 for each term. First-update
+A additivity and a zero second term are checked because the fitted blocks
+then use the same starting law. Later J interaction must not automatically
+be described as entirely a learning feedback.

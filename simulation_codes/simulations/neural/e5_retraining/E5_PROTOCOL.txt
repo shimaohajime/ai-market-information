@@ -1,0 +1,81 @@
+E5 continuation and baseline establishment - 29 October 2026
+
+Source: AI_Trading_Slow_Fast_Retraining_v1_20261028.zip, Library version 2.
+The original archive and original results are retained under e5_inputs. All
+accepted manuscript files are untouched. Existing economic primitives,
+architectures, optimization budgets, data-bank sizes and normalization remain
+unchanged. Resume the nine trajectories from their saved round-6 deployments.
+
+Primary extension: twelve simultaneous slow updates, rather than six, for all
+three seeds and x in {0, .5, 1}. This first extension is a fixed budget, not a
+stopping time selected for a favorable sign. If a longer continuation is run,
+record its scope and reason. A completed terminal stage must be reopened to
+generate training data; its deployed checkpoint must not change.
+
+The fast-law simulation, burn-in, held-out scoring and model training follow
+PROTOCOL.txt. In particular, price generation ends before any refit begins.
+The zero-adoption trajectory is the candidate baseline for later adoption
+shocks. The other two original trajectories diagnose continuation; their
+different early histories do not constitute shocks from the mature baseline.
+
+Original strict settling diagnostic: all successive relative changes in J,
+each candidate's MSE, beta and v below .5% for the last three updates. Retain
+and report this diagnostic, even if it fails. It is not a population theorem.
+
+Fixed-law audit: at the designated candidate endpoint, independently repeat
+one complete refit four times for EACH zero-adoption seed. Every repetition
+starts from the identical saved low/high/other profile. Training-bank shocks
+and optimizer permutations differ. Bank sizes and update schedules are the
+same as in the primary iteration. Generate all data before fitting; do not
+deploy audit fits into the data-generating market. Evaluate them using new
+held-out shocks, shared across repetitions of each seed. Report changes in J,
+beta, v, iota, forecast MSE and forecast/holding RMS. The implied updated J is
+computed from fitted coefficients; price moments from the audit evaluation
+are still moments of the original frozen law, not of a newly deployed market.
+
+Interpretation: within-seed variation estimates training-data/optimization
+noise; the mean one-step update also contains systematic learning drift.
+Neither a small sample mean nor a failure to reject zero proves a fixed point.
+Report replicate values, within-seed SD, seed-specific mean and t intervals.
+For aggregate intervals, average within each of the three initial seeds first;
+use those three means as independent units (df=2). No row-level pseudo-replication.
+
+Operational-baseline diagnostic, in addition to the original strict one:
+compare means over rounds 7-9 and 10-12, for J and the ACTIVE low/other iotas.
+A 1% practical band is used for these market-mechanism quantities. Report the
+band explicitly; it does not replace the original .5% successive-update test.
+A provisional baseline is supported only if these block drifts are below 1%
+for each seed, all seed-specific mean same-law updates are below 1%, and the
+aggregate 95% t intervals for the mean same-law updates lie inside +/-1%.
+Do not select a seed, average trained policies, calibrate away a failed test,
+or change learning rates in order to force this diagnostic to pass. If it
+fails, retain the endpoint as a reproducible candidate and state the failure.
+Extra same-law optimization, if performed, is reported separately and cannot
+silently replace the endpoint.
+
+Baseline artifacts: complete deployed low/high checkpoints, group-2 head,
+normalization, economic configuration, seed, slow-round number, fingerprints,
+diagnostic status, and regeneration instructions. The counterfactual high
+model exists at x=0 but does not influence its prices. Its latest fitting law
+is the previous slow epoch, as for all deployed models; no global optimality
+or exact same-law best response is presumed at a finite endpoint.
+
+Optional first-auction/frozen-policy diagnostic from the candidate baseline:
+use identical baseline pre-auction histories and private/supply primitives,
+alter only x, and recompute clearing. Then simulate new fixed-policy laws at
+the new x. Keep low, high and other parameters unchanged in both comparisons.
+This is distinct from the original high-adoption continuation paths. Under
+Model A, J must match exactly between first-auction and frozen-law stages;
+price moments and forecasting performance can differ. Do not report these
+newly shocked branches as retrained outcomes until actually refitted.
+
+Run commands (Python with numpy, scipy, pandas and torch 2.5.1 available):
+  python run.py --workers 5
+  python analyze.py
+  python audit_baseline.py --round 12 --reps 4 --workers 3
+  python summarize_e5.py
+
+Primary experiment uncertainty remains based on three inherited initial
+training seeds, not a new independent confirmation cohort. Gaussian primitive
+shocks do not guarantee Gaussian endogenous market laws. J is structural
+fresh-signal likelihood precision, not mutual information or aggregate welfare.

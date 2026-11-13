@@ -1,0 +1,19 @@
+{
+  "seeds": [18013, 19031, 20047],
+  "adoption": [0.0, 0.5, 1.0],
+  "slow_updates": 6,
+  "burn": 512,
+  "train_paths": 512,
+  "train_periods": 2048,
+  "training_chunks": 8,
+  "validation_paths": 64,
+  "validation_periods": 1024,
+  "calibration_paths": 64,
+  "calibration_periods": 1024,
+  "evaluation_paths": 128,
+  "evaluation_periods": 1024,
+  "learning_rate": 0.001,
+  "workers": 3,
+  "convergence_relative_tolerance": 0.005,
+  "convergence_consecutive_updates": 3
+}

@@ -1,0 +1,112 @@
+{
+  "by_architecture": {
+    "gru": {
+      "mean_effect_pp": {
+        "mean": 0.19597248877016302,
+        "sd_across_cells": 0.21383250173668422,
+        "positive_cells": 8,
+        "total_cells": 9
+      },
+      "variance_effect_pp": {
+        "mean": -0.04732087574139923,
+        "sd_across_cells": 0.6536942421678206,
+        "positive_cells": 5,
+        "total_cells": 9
+      },
+      "joint_effect_pp": {
+        "mean": 0.730951641880294,
+        "sd_across_cells": 1.3280239286254047,
+        "positive_cells": 5,
+        "total_cells": 9
+      },
+      "NLL_mean_gain": {
+        "mean": 0.012308724106967333,
+        "sd_across_cells": 0.009238492005463077,
+        "positive_cells": 7,
+        "total_cells": 9
+      },
+      "NLL_var_gain": {
+        "mean": 0.003083966642997817,
+        "sd_across_cells": 0.0031621218281413055,
+        "positive_cells": 8,
+        "total_cells": 9
+      },
+      "NLL_joint_gain": {
+        "mean": 0.015008580942338399,
+        "sd_across_cells": 0.009542239490790987,
+        "positive_cells": 9,
+        "total_cells": 9
+      },
+      "swap_comparison": {
+        "opt_mean_pp": 0.19597248877016302,
+        "swap_mean_pp": 0.6585141180083951,
+        "opt_risk_pp": -0.04732087574139923,
+        "swap_risk_pp": 0.040820823986055986,
+        "joint_pp": 0.730951641880294
+      }
+    },
+    "ssm": {
+      "mean_effect_pp": {
+        "mean": 0.3432066956825254,
+        "sd_across_cells": 0.2850559465987211,
+        "positive_cells": 7,
+        "total_cells": 9
+      },
+      "variance_effect_pp": {
+        "mean": -0.1805826595871387,
+        "sd_across_cells": 0.2268543406237476,
+        "positive_cells": 2,
+        "total_cells": 9
+      },
+      "joint_effect_pp": {
+        "mean": 0.17206417209124883,
+        "sd_across_cells": 0.6273165893245989,
+        "positive_cells": 5,
+        "total_cells": 9
+      },
+      "NLL_mean_gain": {
+        "mean": -0.0006453319548359944,
+        "sd_across_cells": 0.005706915494364877,
+        "positive_cells": 4,
+        "total_cells": 9
+      },
+      "NLL_var_gain": {
+        "mean": 0.002381728319845483,
+        "sd_across_cells": 0.0033962628958595993,
+        "positive_cells": 7,
+        "total_cells": 9
+      },
+      "NLL_joint_gain": {
+        "mean": 0.0012974821878600927,
+        "sd_across_cells": 0.003559290334981403,
+        "positive_cells": 6,
+        "total_cells": 9
+      },
+      "swap_comparison": {
+        "opt_mean_pp": 0.3432066956825254,
+        "swap_mean_pp": 0.27461091803392157,
+        "opt_risk_pp": -0.1805826595871387,
+        "swap_risk_pp": -0.08628031796227037,
+        "joint_pp": 0.17206417209124883
+      }
+    }
+  },
+  "training_cells": 18,
+  "evaluation_pairs": 36,
+  "calibrations": [
+    0.7,
+    1.0,
+    1.3
+  ],
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "experimental_cautions": [
+    "Diagnostic incumbent Q0, not a learning equilibrium",
+    "Separate trainings are finite-optimization outcomes, not certified global minimizers",
+    "E3 nonaligned payoff and heteroskedasticity; OOS linear decoder, not true MI",
+    "Only two independent eval pairs per training cell; correlated scenarios and small number of seeds"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "protocol": "Cross-swapped saved population-approximate neural heads; inherited Q0; independent shock banks; every trial uses the same baseline and frozen public history.",
+  "econ": "8d E3 state-dependent volatility with 3 atomistic CARA types; risk head depends on pre-auction public history",
+  "arms": "00=old mean old variance,10=new mean old variance,01=old mean new variance,11=new mean new variance",
+  "learned_heads_are_not_retrained_after_swap": true,
+  "metrics": "Out-of-sample incremental linear decoder gain using pre-auction macro+3 lag inputs; NOT mutual information.",
+  "summary": {
+    "gru": {
+      "mean_effect": {
+        "mean": 0.002557643891081096,
+        "sd": 0.0010817783754281693
+      },
+      "var_effect": {
+        "mean": 0.005225099722689447,
+        "sd": 0.0009566186767326398
+      },
+      "interaction": {
+        "mean": 0.00018919761674451863,
+        "sd": 0.0002971719526744274
+      },
+      "joint_effect": {
+        "mean": 0.007782743613770543,
+        "sd": 0.0008219577477643705
+      },
+      "mean_only_effect": {
+        "mean": 0.002463045082708837,
+        "sd": 0.0010201352386197426
+      },
+      "var_only_effect": {
+        "mean": 0.005130500914317188,
+        "sd": 0.000993161627998227
+      }
+    },
+    "ssm": {
+      "mean_effect": {
+        "mean": 0.005961587633584106,
+        "sd": 0.00032435681929247336
+      },
+      "var_effect": {
+        "mean": -0.007263068437795048,
+        "sd": 0.0005019831310023517
+      },
+      "interaction": {
+        "mean": -0.00016241891985255275,
+        "sd": 5.803601535881871e-05
+      },
+      "joint_effect": {
+        "mean": -0.0013014808042109416,
+        "sd": 0.0003041443108681541
+      },
+      "mean_only_effect": {
+        "mean": 0.0060427970935103825,
+        "sd": 0.0003521170774118279
+      },
+      "var_only_effect": {
+        "mean": -0.007181858977868771,
+        "sd": 0.00047607642893385276
+      }
+    }
+  }
+}

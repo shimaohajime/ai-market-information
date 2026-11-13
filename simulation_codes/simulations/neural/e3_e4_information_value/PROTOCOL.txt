@@ -1,0 +1,43 @@
+E3/E4, 29 October 2026. Fixed before examining evaluation outcomes.
+Nine frozen markets: three seeds x adoption {0,.5,1}, E6 both-group arm after six updates.
+These are finite-learning market laws, not certified learning equilibria.
+Negligible price-taking candidates never enter clearing. In each market, low width4
+and high width32 GRU candidates start from the SAME seed-specific E5 pre-adoption
+baseline across adoption levels, then refit independently from market participants.
+Same inherited normalization, context16, one pass of 1,048,576 windows, Adam4096
+updates, original8chunk learning-rate schedule, prediction Gaussian NLL objective.
+No utility optimization or selecting models by evaluation performance.
+Neural validation:64 independent paths x1024. Separate affine-head calibration:
+128 paths x2048. Four independent evaluation banks, each256 paths x1024, burn512.
+SeedSequence[20261028,seed,91000,bank]. Same primitive draws across x and candidates.
+Banks1 train,2 validation,3 calibration,10..13 evaluation. Market prices recomputed.
+
+E3 primary: public encoder zL versus zH, independently fitted affine dividend heads
+with and without actual current price; NO own private signal in either head.
+Report held-out absolute MSE gain S for low, D for high, T=S-D, and price-free/price
+forecast gaps. Relative MSE gains are secondary. Do not clip negative gains.
+Secondary: explicitly nested public vector(zL,zH), costing both encoders, plus the
+same affine heads. This is an implemented-information check, not a width32-only
+technology or an unrestricted conditional expectation. No mutual information claim.
+
+E4 primary: learned neural mean and constant variance from prediction training;
+h=(mu-Rf*p)/(gamma*v), gamma=group1 gamma, same own private signal and same price.
+CE=-log E exp(-gamma*h*(D-Rf*p))/gamma, with zero initial wealth normalization.
+Independent current payoff innovation epsilon~N(0,.43^2) integrated analytically:
+logweight=-gamma*h*(lambda*theta-Rf*p)+gamma^2*h^2*.43^2/2.
+Latent theta appears ONLY in scoring, never candidate/observer information.
+Use log-sum-exp, no clipping, no winsorization, no Gaussian posterior CE shortcut.
+Primary upgrade=CE_high-CE_low. Cross-adoption change compares this difference
+between separately refitted candidates on each common frozen law.
+Secondary affine head recalibration: low, high, and nested(zL,zH), common independent
+calibration bank, OLS mean plus training residual variance. Extra fitting and both
+encoders disclosed. Nested features do not ensure better true utility under
+misspecification or finite fitting. These are gross values before compute costs.
+
+Uncertainty: paired seed contrasts; Student-t df2 intervals descriptive with only3
+training seeds. Separate within-market path bootstrap with bank-stratified resampling
+for evaluation uncertainty conditional on fitted models, not additional training seeds.
+CE tail diagnostics: effective weights, max and top0.1% weights, independent bank
+and half-sample comparisons. Finite diagnostics cannot prove exponential integrability.
+Gaussian benchmark and direct-versus-integrated utility test validate measurement.
+Unchanged market fingerprints and calibration/evaluation separation are audited.

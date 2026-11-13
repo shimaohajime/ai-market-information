@@ -1,0 +1,1837 @@
+{
+  "protocol": "Phase2-v1",
+  "comparison": "frozen-inherited-law one-shot counterfactuals, NOT stationary post-deployment",
+  "architectures": [
+    "diagonal stable linear state-space",
+    "finite-context GRU"
+  ],
+  "candidate_type": 0,
+  "training_benchmark": "Phase 1 exogenously specified diagnostic market",
+  "dataset": "same market law Q0 for both capacities; chronology-split Q0 training; independent shock bank for auction evaluation",
+  "torch_version": "2.10.0+cpu",
+  "python_version": "3.13.5",
+  "scipy_version": "1.17.0",
+  "test_law_seed": 20261119,
+  "training_seeds": [
+    11,
+    23,
+    37
+  ],
+  "head_types": {
+    "A": "constant private/price coefficients and variance, nonlinear public intercept allowed",
+    "B": "state-dependent private/price coefficients and variance"
+  },
+  "limitations": [
+    "incumbent Q0 policies and other types are diagnostic, not population-optimal",
+    "independent training runs need not preserve realized monotonicity despite nested function families",
+    "E1 fresh likelihood precision is not mutual information",
+    "E2/E3 decoder measures heldout OOS linear MSE only",
+    "one-shot frozen inherited public histories are not the counterfactual dynamic stationary law",
+    "computational resource accounting is approximate MACs and allocated states, not hardware profiler FLOPs",
+    "no transformer or repeated retraining in Phase 2 pilot"
+  ],
+  "inherited_baselines": {
+    "E3_state_risk": {
+      "decoder": {
+        "OOS_public_MSE": 0.20161068069656218,
+        "OOS_public_plus_price_MSE": 0.19858973491050735,
+        "OOS_linear_decoder_gain": 0.014984056279248259,
+        "gaussian_log_MSE_proxy": 0.00754872571125934,
+        "evaluation_n": 2374,
+        "not_exact_conditional_MI": true
+      },
+      "fresh_precision_E1": null,
+      "max_abs_clearing_error": 8.881784197001252e-16
+    },
+    "E1_aligned": {
+      "decoder": {
+        "OOS_public_MSE": 0.20794230369040814,
+        "OOS_public_plus_price_MSE": 0.2023238043210616,
+        "OOS_linear_decoder_gain": 0.02701951103567446,
+        "gaussian_log_MSE_proxy": 0.013695624724530092,
+        "evaluation_n": 2374,
+        "not_exact_conditional_MI": true
+      },
+      "fresh_precision_E1": 0.16732214667449394,
+      "max_abs_clearing_error": 8.881784197001252e-16
+    },
+    "E2_nonaligned": {
+      "decoder": {
+        "OOS_public_MSE": 0.19409569766502327,
+        "OOS_public_plus_price_MSE": 0.19122572664491744,
+        "OOS_linear_decoder_gain": 0.014786371128426179,
+        "gaussian_log_MSE_proxy": 0.0074483896112253764,
+        "evaluation_n": 2374,
+        "not_exact_conditional_MI": true
+      },
+      "fresh_precision_E1": null,
+      "max_abs_clearing_error": 1.3322676295501878e-15
+    }
+  },
+  "models": [
+    {
+      "scenario": "E1_aligned",
+      "architecture": "ssm",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E1_aligned_ssm4_headA_seed11.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9391409960262909,
+        "MSE": 0.38299813866615295,
+        "variance_mean": 0.3892500102519989,
+        "residual_variance": 0.38299813866615295,
+        "variance_calibration_ratio": 0.983938455581665,
+        "NLL_minus_constant": 0.978132963180542
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9445322957508697,
+        "MSE": 0.3871951699256897,
+        "variance_mean": 0.3892500102519989,
+        "residual_variance": 0.3871951699256897,
+        "variance_calibration_ratio": 0.9947206974029541,
+        "NLL_minus_constant": 0.9835242629051208
+      },
+      "resources": {
+        "params": 28,
+        "forward_macs_approx": 1156,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 4.440892098500626e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.529844743974236,
+        "fresh_precision_E1": 0.2855316737995458,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19117092983888123,
+          "OOS_linear_decoder_gain": 0.08065397734795088,
+          "gaussian_log_MSE_proxy": 0.04204635332626835,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "ssm",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E1_aligned_ssm4_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.941068610238327,
+        "MSE": 0.3843045234680176,
+        "variance_mean": 0.3976985514163971,
+        "residual_variance": 0.3843045234680176,
+        "variance_calibration_ratio": 0.9663211107254028,
+        "NLL_minus_constant": 0.9800605773925781
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9446056690685882,
+        "MSE": 0.3871178925037384,
+        "variance_mean": 0.3976985812187195,
+        "residual_variance": 0.3871178925037384,
+        "variance_calibration_ratio": 0.9733953475952148,
+        "NLL_minus_constant": 0.9835976362228394
+      },
+      "resources": {
+        "params": 28,
+        "forward_macs_approx": 1156,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.4997551559383401,
+        "fresh_precision_E1": 0.266218896597585,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.1918377133163903,
+          "OOS_linear_decoder_gain": 0.07744739809170786,
+          "gaussian_log_MSE_proxy": 0.040305441827146626,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "ssm",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E1_aligned_ssm4_headA_seed37.pt",
+      "fit_steps": 300,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9410807099812164,
+        "MSE": 0.3844386041164398,
+        "variance_mean": 0.3932628929615021,
+        "residual_variance": 0.3844386041164398,
+        "variance_calibration_ratio": 0.9775614142417908,
+        "NLL_minus_constant": 0.9800726771354675
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9443530049793853,
+        "MSE": 0.3870123624801636,
+        "variance_mean": 0.3932628929615021,
+        "residual_variance": 0.3870123624801636,
+        "variance_calibration_ratio": 0.9841058850288391,
+        "NLL_minus_constant": 0.9833449721336365
+      },
+      "resources": {
+        "params": 28,
+        "forward_macs_approx": 1156,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.49586407343051503,
+        "fresh_precision_E1": 0.26377081342212005,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19131151404109506,
+          "OOS_linear_decoder_gain": 0.07997790422709561,
+          "gaussian_log_MSE_proxy": 0.041678796041498316,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E1_aligned_ssm12_headA_seed11.pt",
+      "fit_steps": 300,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9373570886128082,
+        "MSE": 0.3814461827278137,
+        "variance_mean": 0.3952302634716034,
+        "residual_variance": 0.3814461827278137,
+        "variance_calibration_ratio": 0.9651240110397339,
+        "NLL_minus_constant": 0.9763490557670593
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9437417593472137,
+        "MSE": 0.38649293780326843,
+        "variance_mean": 0.395230233669281,
+        "residual_variance": 0.38649293780326843,
+        "variance_calibration_ratio": 0.9778932332992554,
+        "NLL_minus_constant": 0.9827337265014648
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 4.440892098500626e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.49327008531863115,
+        "fresh_precision_E1": 0.26214508242125406,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19169447516073737,
+          "OOS_linear_decoder_gain": 0.07813623414435722,
+          "gaussian_log_MSE_proxy": 0.040678912859346904,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E1_aligned_ssm12_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9406999555103912,
+        "MSE": 0.3839930593967438,
+        "variance_mean": 0.39821717143058777,
+        "residual_variance": 0.3839930593967438,
+        "variance_calibration_ratio": 0.9642806053161621,
+        "NLL_minus_constant": 0.9796919226646423
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.944833418416275,
+        "MSE": 0.38728514313697815,
+        "variance_mean": 0.3982171416282654,
+        "residual_variance": 0.38728514313697815,
+        "variance_calibration_ratio": 0.9725476503372192,
+        "NLL_minus_constant": 0.9838253855705261
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.4989062598577498,
+        "fresh_precision_E1": 0.26568384729663813,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.1918131996134996,
+          "OOS_linear_decoder_gain": 0.07756528513275551,
+          "gaussian_log_MSE_proxy": 0.040369337681679725,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E1_aligned_ssm12_headA_seed37.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9403265324108734,
+        "MSE": 0.3839300274848938,
+        "variance_mean": 0.3885367214679718,
+        "residual_variance": 0.3839300274848938,
+        "variance_calibration_ratio": 0.9881433844566345,
+        "NLL_minus_constant": 0.9793184995651245
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9442112651341095,
+        "MSE": 0.38694873452186584,
+        "variance_mean": 0.3885367214679718,
+        "residual_variance": 0.38694873452186584,
+        "variance_calibration_ratio": 0.9959129691123962,
+        "NLL_minus_constant": 0.9832032322883606
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.5040424285610917,
+        "fresh_precision_E1": 0.2689293381160542,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19157895380424192,
+          "OOS_linear_decoder_gain": 0.07869177938188354,
+          "gaussian_log_MSE_proxy": 0.040980320030477024,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "gru",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E1_aligned_gru4_headA_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9518357124798431,
+        "MSE": 0.39274469017982483,
+        "variance_mean": 0.40392032265663147,
+        "residual_variance": 0.39274469017982483,
+        "variance_calibration_ratio": 0.9723319411277771,
+        "NLL_minus_constant": 0.9908276796340942
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9493074622624054,
+        "MSE": 0.39070233702659607,
+        "variance_mean": 0.40392032265663147,
+        "residual_variance": 0.39070233702659607,
+        "variance_calibration_ratio": 0.9672755599021912,
+        "NLL_minus_constant": 0.9882994294166565
+      },
+      "resources": {
+        "params": 128,
+        "forward_macs_approx": 5188,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.5104366735551809,
+        "fresh_precision_E1": 0.27299732840201374,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19146374547297554,
+          "OOS_linear_decoder_gain": 0.07924581927286167,
+          "gaussian_log_MSE_proxy": 0.0412810915500957,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "gru",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E1_aligned_gru4_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9508387055866852,
+        "MSE": 0.3919154107570648,
+        "variance_mean": 0.40469852089881897,
+        "residual_variance": 0.3919154107570648,
+        "variance_calibration_ratio": 0.9684132933616638,
+        "NLL_minus_constant": 0.9898306727409363
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.951847693013443,
+        "MSE": 0.39273205399513245,
+        "variance_mean": 0.40469855070114136,
+        "residual_variance": 0.39273205399513245,
+        "variance_calibration_ratio": 0.9704311490058899,
+        "NLL_minus_constant": 0.9908396601676941
+      },
+      "resources": {
+        "params": 128,
+        "forward_macs_approx": 5188,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.5345275481678122,
+        "fresh_precision_E1": 0.28859810750321724,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19127865312265926,
+          "OOS_linear_decoder_gain": 0.08013593324693713,
+          "gaussian_log_MSE_proxy": 0.04176468669247925,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "gru",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E1_aligned_gru4_headA_seed37.pt",
+      "fit_steps": 270,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9513410535328521,
+        "MSE": 0.39232704043388367,
+        "variance_mean": 0.4045338034629822,
+        "residual_variance": 0.39232704043388367,
+        "variance_calibration_ratio": 0.9698253273963928,
+        "NLL_minus_constant": 0.9903330206871033
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9586489406101837,
+        "MSE": 0.3982395827770233,
+        "variance_mean": 0.4045338034629822,
+        "residual_variance": 0.3982395827770233,
+        "variance_calibration_ratio": 0.9844409227371216,
+        "NLL_minus_constant": 0.9976409077644348
+      },
+      "resources": {
+        "params": 128,
+        "forward_macs_approx": 5188,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.500301436334927,
+        "fresh_precision_E1": 0.2665634953945047,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19276485655991,
+          "OOS_linear_decoder_gain": 0.0729887418824352,
+          "gaussian_log_MSE_proxy": 0.03789478440544291,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E1_aligned_gru12_headA_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9467645493023529,
+        "MSE": 0.388779878616333,
+        "variance_mean": 0.39990001916885376,
+        "residual_variance": 0.388779878616333,
+        "variance_calibration_ratio": 0.9721927046775818,
+        "NLL_minus_constant": 0.985756516456604
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9454277363293304,
+        "MSE": 0.3877107799053192,
+        "variance_mean": 0.39989998936653137,
+        "residual_variance": 0.3877107799053192,
+        "variance_calibration_ratio": 0.969519317150116,
+        "NLL_minus_constant": 0.9844197034835815
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.4970353269497029,
+        "fresh_precision_E1": 0.264506520479702,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.1911847641605375,
+          "OOS_linear_decoder_gain": 0.08058744773175086,
+          "gaussian_log_MSE_proxy": 0.04201017151472636,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E1_aligned_gru12_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9454798307888641,
+        "MSE": 0.38778993487358093,
+        "variance_mean": 0.39859387278556824,
+        "residual_variance": 0.38778993487358093,
+        "variance_calibration_ratio": 0.9728949666023254,
+        "NLL_minus_constant": 0.9844717979431152
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9457105007641449,
+        "MSE": 0.3879737854003906,
+        "variance_mean": 0.3985939025878906,
+        "residual_variance": 0.3879737854003906,
+        "variance_calibration_ratio": 0.9733562469482422,
+        "NLL_minus_constant": 0.984702467918396
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.5179134491331777,
+        "fresh_precision_E1": 0.27779275123427616,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19090310936116842,
+          "OOS_linear_decoder_gain": 0.08194193305951003,
+          "gaussian_log_MSE_proxy": 0.04274731830713506,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E1_aligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E1_aligned_gru12_headA_seed37.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.945285877274765,
+        "MSE": 0.38768425583839417,
+        "variance_mean": 0.39663925766944885,
+        "residual_variance": 0.38768425583839417,
+        "variance_calibration_ratio": 0.9774229526519775,
+        "NLL_minus_constant": 0.9842778444290161
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9457169380657806,
+        "MSE": 0.3880261778831482,
+        "variance_mean": 0.39663925766944885,
+        "residual_variance": 0.3880261778831482,
+        "variance_calibration_ratio": 0.9782848954200745,
+        "NLL_minus_constant": 0.9847089052200317
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.8776412312858097,
+        "updated_beta_over_gamma_v": 0.5205127379262272,
+        "fresh_precision_E1": 0.2794696531914817,
+        "decoder": {
+          "OOS_public_MSE": 0.20794230369040814,
+          "OOS_public_plus_price_MSE": 0.19080072720300806,
+          "OOS_linear_decoder_gain": 0.0824342915471451,
+          "gaussian_log_MSE_proxy": 0.04301554238771328,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E2_nonaligned_ssm4_headA_seed11.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9917318702255608,
+        "MSE": 0.42549929022789,
+        "variance_mean": 0.43088439106941223,
+        "residual_variance": 0.42549929022789,
+        "variance_calibration_ratio": 0.9875020384788513,
+        "NLL_minus_constant": 0.8368887901306152
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.993737745336187,
+        "MSE": 0.4272279739379883,
+        "variance_mean": 0.4308844208717346,
+        "residual_variance": 0.4272279739379883,
+        "variance_calibration_ratio": 0.9915138483047485,
+        "NLL_minus_constant": 0.8388946652412415
+      },
+      "resources": {
+        "params": 28,
+        "forward_macs_approx": 1156,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4743895449002018,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18640296766542144,
+          "OOS_linear_decoder_gain": 0.03963369663596661,
+          "gaussian_log_MSE_proxy": 0.02022025064692447,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E2_nonaligned_ssm4_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9942374706779838,
+        "MSE": 0.42660295963287354,
+        "variance_mean": 0.4582432210445404,
+        "residual_variance": 0.42660295963287354,
+        "variance_calibration_ratio": 0.9309530258178711,
+        "NLL_minus_constant": 0.8393943905830383
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9979964972053886,
+        "MSE": 0.43004801869392395,
+        "variance_mean": 0.4582432210445404,
+        "residual_variance": 0.43004801869392395,
+        "variance_calibration_ratio": 0.9384710788726807,
+        "NLL_minus_constant": 0.8431534171104431
+      },
+      "resources": {
+        "params": 28,
+        "forward_macs_approx": 1156,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4393465944708816,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.1874975688868931,
+          "OOS_linear_decoder_gain": 0.03399420418641863,
+          "gaussian_log_MSE_proxy": 0.017292722490298874,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E2_nonaligned_ssm4_headA_seed37.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.991639721444738,
+        "MSE": 0.4253106117248535,
+        "variance_mean": 0.43656298518180847,
+        "residual_variance": 0.4253106117248535,
+        "variance_calibration_ratio": 0.9742250442504883,
+        "NLL_minus_constant": 0.8367966413497925
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9954757571731926,
+        "MSE": 0.42865997552871704,
+        "variance_mean": 0.4365629553794861,
+        "residual_variance": 0.42865997552871704,
+        "variance_calibration_ratio": 0.9818971157073975,
+        "NLL_minus_constant": 0.8406326770782471
+      },
+      "resources": {
+        "params": 28,
+        "forward_macs_approx": 1156,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4728175550091712,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18662178494382195,
+          "OOS_linear_decoder_gain": 0.03850632863640313,
+          "gaussian_log_MSE_proxy": 0.019633648010052726,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E2_nonaligned_ssm12_headA_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9929705739532829,
+        "MSE": 0.4262196719646454,
+        "variance_mean": 0.44444555044174194,
+        "residual_variance": 0.4262196719646454,
+        "variance_calibration_ratio": 0.9589919447898865,
+        "NLL_minus_constant": 0.8381274938583374
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9972386241470695,
+        "MSE": 0.4300135672092438,
+        "variance_mean": 0.44444558024406433,
+        "residual_variance": 0.4300135672092438,
+        "variance_calibration_ratio": 0.9675280451774597,
+        "NLL_minus_constant": 0.842395544052124
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4421786018635853,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.1868130029905596,
+          "OOS_linear_decoder_gain": 0.03752115457516414,
+          "gaussian_log_MSE_proxy": 0.019121595920562996,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E2_nonaligned_ssm12_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9940000057731987,
+        "MSE": 0.4262676239013672,
+        "variance_mean": 0.4598926901817322,
+        "residual_variance": 0.4262676239013672,
+        "variance_calibration_ratio": 0.9268852472305298,
+        "NLL_minus_constant": 0.8391569256782532
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9964720488106132,
+        "MSE": 0.428541362285614,
+        "variance_mean": 0.45989271998405457,
+        "residual_variance": 0.428541362285614,
+        "variance_calibration_ratio": 0.9318292140960693,
+        "NLL_minus_constant": 0.8416289687156677
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4334917732578844,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18720779457593867,
+          "OOS_linear_decoder_gain": 0.03548714975110867,
+          "gaussian_log_MSE_proxy": 0.01806606175089375,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E2_nonaligned_ssm12_headA_seed37.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9917886734520317,
+        "MSE": 0.42505818605422974,
+        "variance_mean": 0.4468536674976349,
+        "residual_variance": 0.42505818605422974,
+        "variance_calibration_ratio": 0.9512244462966919,
+        "NLL_minus_constant": 0.8369455933570862
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9975157261406303,
+        "MSE": 0.4301765263080597,
+        "variance_mean": 0.44685372710227966,
+        "residual_variance": 0.4301765263080597,
+        "variance_calibration_ratio": 0.9626786708831787,
+        "NLL_minus_constant": 0.8426726460456848
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.43138858471010033,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.1871538189506511,
+          "OOS_linear_decoder_gain": 0.03576523744669846,
+          "gaussian_log_MSE_proxy": 0.018210242200254172,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E2_nonaligned_gru4_headA_seed11.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.009107995084417,
+        "MSE": 0.4405711591243744,
+        "variance_mean": 0.4376365542411804,
+        "residual_variance": 0.4405711591243744,
+        "variance_calibration_ratio": 1.0067055225372314,
+        "NLL_minus_constant": 0.8542649149894715
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0020834684883477,
+        "MSE": 0.4344227612018585,
+        "variance_mean": 0.4376365542411804,
+        "residual_variance": 0.4344227612018585,
+        "variance_calibration_ratio": 0.9926562905311584,
+        "NLL_minus_constant": 0.8472403883934022
+      },
+      "resources": {
+        "params": 128,
+        "forward_macs_approx": 5188,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.49125154697661805,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18619525761091865,
+          "OOS_linear_decoder_gain": 0.04070383913269138,
+          "gaussian_log_MSE_proxy": 0.020777714590466217,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E2_nonaligned_gru4_headA_seed23.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0024933100258233,
+        "MSE": 0.43473494052886963,
+        "variance_mean": 0.4278406798839569,
+        "residual_variance": 0.43473494052886963,
+        "variance_calibration_ratio": 1.0161139965057373,
+        "NLL_minus_constant": 0.8476502299308778
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0017986178909661,
+        "MSE": 0.4341404438018799,
+        "variance_mean": 0.42784059047698975,
+        "residual_variance": 0.4341404438018799,
+        "variance_calibration_ratio": 1.0147244930267334,
+        "NLL_minus_constant": 0.8469555377960206
+      },
+      "resources": {
+        "params": 128,
+        "forward_macs_approx": 5188,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4108008255191129,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18692428082077897,
+          "OOS_linear_decoder_gain": 0.03694784032060805,
+          "gaussian_log_MSE_proxy": 0.018823852456563706,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 4,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E2_nonaligned_gru4_headA_seed37.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0079363465820672,
+        "MSE": 0.4395231008529663,
+        "variance_mean": 0.43471458554267883,
+        "residual_variance": 0.4395231008529663,
+        "variance_calibration_ratio": 1.0110613107681274,
+        "NLL_minus_constant": 0.8530932664871217
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0020657063042047,
+        "MSE": 0.43441903591156006,
+        "variance_mean": 0.4347146153450012,
+        "residual_variance": 0.43441903591156006,
+        "variance_calibration_ratio": 0.9993200302124023,
+        "NLL_minus_constant": 0.8472226262092591
+      },
+      "resources": {
+        "params": 128,
+        "forward_macs_approx": 5188,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 16,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4999600546675183,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18629857566536867,
+          "OOS_linear_decoder_gain": 0.040171534420670785,
+          "gaussian_log_MSE_proxy": 0.020500346086964293,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E2_nonaligned_gru12_headA_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0049434781586053,
+        "MSE": 0.4368992745876312,
+        "variance_mean": 0.4418211281299591,
+        "residual_variance": 0.4368992745876312,
+        "variance_calibration_ratio": 0.9888598918914795,
+        "NLL_minus_constant": 0.8501003980636598
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.997092294744146,
+        "MSE": 0.4299616515636444,
+        "variance_mean": 0.4418211877346039,
+        "residual_variance": 0.4299616515636444,
+        "variance_calibration_ratio": 0.9731575846672058,
+        "NLL_minus_constant": 0.8422492146492004
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4544111201626021,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.186179123467705,
+          "OOS_linear_decoder_gain": 0.04078696381504021,
+          "gaussian_log_MSE_proxy": 0.020821042338140628,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E2_nonaligned_gru12_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9997762918983818,
+        "MSE": 0.4317062795162201,
+        "variance_mean": 0.45777302980422974,
+        "residual_variance": 0.4317062795162201,
+        "variance_calibration_ratio": 0.9430574178695679,
+        "NLL_minus_constant": 0.8449332118034363
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9991014481102348,
+        "MSE": 0.431088387966156,
+        "variance_mean": 0.45777300000190735,
+        "residual_variance": 0.431088387966156,
+        "variance_calibration_ratio": 0.9417076706886292,
+        "NLL_minus_constant": 0.8442583680152893
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.44755131834444595,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18654300209772007,
+          "OOS_linear_decoder_gain": 0.03891222555761076,
+          "gaussian_log_MSE_proxy": 0.019844768807105874,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 37,
+      "checkpoint": "models/E2_nonaligned_gru12_headA_seed37.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9986566782509209,
+        "MSE": 0.4314084053039551,
+        "variance_mean": 0.43861135840415955,
+        "residual_variance": 0.4314084053039551,
+        "variance_calibration_ratio": 0.9835779666900635,
+        "NLL_minus_constant": 0.8438135981559753
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9997697949921013,
+        "MSE": 0.4323848783969879,
+        "variance_mean": 0.43861129879951477,
+        "residual_variance": 0.4323848783969879,
+        "variance_calibration_ratio": 0.9858043193817139,
+        "NLL_minus_constant": 0.8449267148971558
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4700240157936623,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18648861864128624,
+          "OOS_linear_decoder_gain": 0.03919241443911636,
+          "gaussian_log_MSE_proxy": 0.01999055660040704,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 11,
+      "checkpoint": "models/E2_nonaligned_ssm12_headB_seed11.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.000126826814306,
+        "MSE": 0.43173518776893616,
+        "variance_mean": 0.4271010458469391,
+        "residual_variance": 0.43173518776893616,
+        "variance_calibration_ratio": 1.0157490968704224,
+        "NLL_minus_constant": 0.8452837467193605
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9974646449600578,
+        "MSE": 0.4298316240310669,
+        "variance_mean": 0.4386889934539795,
+        "residual_variance": 0.4298316240310669,
+        "variance_calibration_ratio": 0.9840806722640991,
+        "NLL_minus_constant": 0.8426215648651123
+      },
+      "resources": {
+        "params": 112,
+        "forward_macs_approx": 3504,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 1.3322676295501878e-15,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4940852312498458,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18586465840484825,
+          "OOS_linear_decoder_gain": 0.04240711854613288,
+          "gaussian_log_MSE_proxy": 0.021666279251283636,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 23,
+      "checkpoint": "models/E2_nonaligned_ssm12_headB_seed23.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 0.9923125386749626,
+        "MSE": 0.4249308407306671,
+        "variance_mean": 0.4226953685283661,
+        "residual_variance": 0.4249308407306671,
+        "variance_calibration_ratio": 1.0099961757659912,
+        "NLL_minus_constant": 0.8374694585800171
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.9942895055328728,
+        "MSE": 0.4280834197998047,
+        "variance_mean": 0.43066978454589844,
+        "residual_variance": 0.4280834197998047,
+        "variance_calibration_ratio": 0.9954009056091309,
+        "NLL_minus_constant": 0.8394464254379272
+      },
+      "resources": {
+        "params": 112,
+        "forward_macs_approx": 3504,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.42788192737517367,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18692524199440055,
+          "OOS_linear_decoder_gain": 0.036942888260190765,
+          "gaussian_log_MSE_proxy": 0.018821281439181218,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 11,
+      "checkpoint": "models/E2_nonaligned_gru12_headB_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0055205107246759,
+        "MSE": 0.43633294105529785,
+        "variance_mean": 0.4378991723060608,
+        "residual_variance": 0.43633294105529785,
+        "variance_calibration_ratio": 1.0007696151733398,
+        "NLL_minus_constant": 0.8506774306297303
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 0.996753680757177,
+        "MSE": 0.4295657277107239,
+        "variance_mean": 0.44630110263824463,
+        "residual_variance": 0.4295657277107239,
+        "variance_calibration_ratio": 0.9645993709564209,
+        "NLL_minus_constant": 0.8419106006622314
+      },
+      "resources": {
+        "params": 700,
+        "forward_macs_approx": 29424,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.41254900300249253,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.18683605858721172,
+          "OOS_linear_decoder_gain": 0.03740236988838608,
+          "gaussian_log_MSE_proxy": 0.01905989204103486,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E2_nonaligned",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 23,
+      "checkpoint": "models/E2_nonaligned_gru12_headB_seed23.pt",
+      "fit_steps": 270,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0055336833511712,
+        "MSE": 0.43452292680740356,
+        "variance_mean": 0.4433448910713196,
+        "residual_variance": 0.43452292680740356,
+        "variance_calibration_ratio": 0.9915693402290344,
+        "NLL_minus_constant": 0.8506906032562257
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0021005750213983,
+        "MSE": 0.4335572123527527,
+        "variance_mean": 0.4443797171115875,
+        "residual_variance": 0.4335572123527527,
+        "variance_calibration_ratio": 0.9816017746925354,
+        "NLL_minus_constant": 0.8472574949264527
+      },
+      "resources": {
+        "params": 700,
+        "forward_macs_approx": 29424,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948528852021426,
+        "updated_beta_over_gamma_v": 0.4936234041291628,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.19409569766502327,
+          "OOS_public_plus_price_MSE": 0.1865348873963106,
+          "OOS_linear_decoder_gain": 0.03895403329218228,
+          "gaussian_log_MSE_proxy": 0.019866519496812358,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E3_state_risk_ssm12_headA_seed11.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0369306578219704,
+        "MSE": 0.46549975872039795,
+        "variance_mean": 0.4823959469795227,
+        "residual_variance": 0.46549975872039795,
+        "variance_calibration_ratio": 0.9649744629859924,
+        "NLL_minus_constant": 0.8641437292098999
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0574714316905311,
+        "MSE": 0.4853173494338989,
+        "variance_mean": 0.4823959171772003,
+        "residual_variance": 0.4853173494338989,
+        "variance_calibration_ratio": 1.0060560703277588,
+        "NLL_minus_constant": 0.8846845030784607
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.4403421011016924,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19410743949788392,
+          "OOS_linear_decoder_gain": 0.03721648661050425,
+          "gaussian_log_MSE_proxy": 0.018963348414290294,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E3_state_risk_ssm12_headA_seed23.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0340803041041664,
+        "MSE": 0.4626389145851135,
+        "variance_mean": 0.48495304584503174,
+        "residual_variance": 0.4626389145851135,
+        "variance_calibration_ratio": 0.9539869427680969,
+        "NLL_minus_constant": 0.861293375492096
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0567415132106117,
+        "MSE": 0.4846181273460388,
+        "variance_mean": 0.48495301604270935,
+        "residual_variance": 0.4846181273460388,
+        "variance_calibration_ratio": 0.9993094205856323,
+        "NLL_minus_constant": 0.8839545845985413
+      },
+      "resources": {
+        "params": 76,
+        "forward_macs_approx": 3468,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.40352432051897236,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.1945734114176418,
+          "OOS_linear_decoder_gain": 0.03490524040991627,
+          "gaussian_log_MSE_proxy": 0.017764492998850318,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 11,
+      "checkpoint": "models/E3_state_risk_ssm12_headB_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.03354863067277,
+        "MSE": 0.469870924949646,
+        "variance_mean": 0.5040304660797119,
+        "residual_variance": 0.469870924949646,
+        "variance_calibration_ratio": 0.9559906125068665,
+        "NLL_minus_constant": 0.8607617020606995
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0355489029467873,
+        "MSE": 0.4883979558944702,
+        "variance_mean": 0.5037904381752014,
+        "residual_variance": 0.4883979558944702,
+        "variance_calibration_ratio": 0.9603952169418335,
+        "NLL_minus_constant": 0.8627619743347168
+      },
+      "resources": {
+        "params": 112,
+        "forward_macs_approx": 3504,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.4219734672905271,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19442988671139716,
+          "OOS_linear_decoder_gain": 0.035617130800587926,
+          "gaussian_log_MSE_proxy": 0.01813344800115361,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "ssm",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 23,
+      "checkpoint": "models/E3_state_risk_ssm12_headB_seed23.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.027509845691996,
+        "MSE": 0.4645012319087982,
+        "variance_mean": 0.4758983254432678,
+        "residual_variance": 0.4645012319087982,
+        "variance_calibration_ratio": 1.0126439332962036,
+        "NLL_minus_constant": 0.8547229170799255
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0333010925830177,
+        "MSE": 0.4865196645259857,
+        "variance_mean": 0.48547056317329407,
+        "residual_variance": 0.4865196645259857,
+        "variance_calibration_ratio": 1.0038158893585205,
+        "NLL_minus_constant": 0.8605141639709473
+      },
+      "resources": {
+        "params": 112,
+        "forward_macs_approx": 3504,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.4255710594859793,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19446420468661157,
+          "OOS_linear_decoder_gain": 0.03544691176707315,
+          "gaussian_log_MSE_proxy": 0.018045202959476248,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 11,
+      "checkpoint": "models/E3_state_risk_gru12_headA_seed11.pt",
+      "fit_steps": 420,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0480863227427772,
+        "MSE": 0.4762944281101227,
+        "variance_mean": 0.4788999855518341,
+        "residual_variance": 0.4762944281101227,
+        "variance_calibration_ratio": 0.9945592284202576,
+        "NLL_minus_constant": 0.8752993941307068
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0533733143389992,
+        "MSE": 0.48135820031166077,
+        "variance_mean": 0.4789000451564789,
+        "residual_variance": 0.48135820031166077,
+        "variance_calibration_ratio": 1.0051329135894775,
+        "NLL_minus_constant": 0.8805863857269287
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 6.661338147750939e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.44401590253697065,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19329508826889785,
+          "OOS_linear_decoder_gain": 0.04124579312432297,
+          "gaussian_log_MSE_proxy": 0.021060269217377293,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "A",
+      "seed": 23,
+      "checkpoint": "models/E3_state_risk_gru12_headA_seed23.pt",
+      "fit_steps": 330,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.04423240562089,
+        "MSE": 0.47091126441955566,
+        "variance_mean": 0.5136922597885132,
+        "residual_variance": 0.47091126441955566,
+        "variance_calibration_ratio": 0.9167189002037048,
+        "NLL_minus_constant": 0.8714454770088196
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.0581736936152748,
+        "MSE": 0.4852343201637268,
+        "variance_mean": 0.5136922597885132,
+        "residual_variance": 0.4852343201637268,
+        "variance_calibration_ratio": 0.9446012377738953,
+        "NLL_minus_constant": 0.8853867650032043
+      },
+      "resources": {
+        "params": 664,
+        "forward_macs_approx": 29388,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.4260510791443428,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19348046436938304,
+          "OOS_linear_decoder_gain": 0.04032631752985183,
+          "gaussian_log_MSE_proxy": 0.02058098319887057,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 11,
+      "checkpoint": "models/E3_state_risk_gru12_headB_seed11.pt",
+      "fit_steps": 390,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0390285625041298,
+        "MSE": 0.47549811005592346,
+        "variance_mean": 0.4936296343803406,
+        "residual_variance": 0.47549811005592346,
+        "variance_calibration_ratio": 0.9882192015647888,
+        "NLL_minus_constant": 0.8662416338920593
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.030779220062571,
+        "MSE": 0.4829714596271515,
+        "variance_mean": 0.4998479187488556,
+        "residual_variance": 0.4829714596271515,
+        "variance_calibration_ratio": 0.9564192891120911,
+        "NLL_minus_constant": 0.8579922914505005
+      },
+      "resources": {
+        "params": 700,
+        "forward_macs_approx": 29424,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.3940978479564617,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19408633998800406,
+          "OOS_linear_decoder_gain": 0.03732114133319542,
+          "gaussian_log_MSE_proxy": 0.019017701448820097,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    },
+    {
+      "scenario": "E3_state_risk",
+      "architecture": "gru",
+      "hidden": 12,
+      "head_type": "B",
+      "seed": 23,
+      "checkpoint": "models/E3_state_risk_gru12_headB_seed23.pt",
+      "fit_steps": 270,
+      "heldout": {
+        "n": 1440,
+        "NLL": 1.0389693750918678,
+        "MSE": 0.4744093716144562,
+        "variance_mean": 0.4934008717536926,
+        "residual_variance": 0.4744093716144562,
+        "variance_calibration_ratio": 0.9921196699142456,
+        "NLL_minus_constant": 0.8661824464797974
+      },
+      "training": {
+        "n": 5153,
+        "NLL": 1.03936419625886,
+        "MSE": 0.4889965057373047,
+        "variance_mean": 0.49761223793029785,
+        "residual_variance": 0.4889965057373047,
+        "variance_calibration_ratio": 0.9812281131744385,
+        "NLL_minus_constant": 0.8665772676467896
+      },
+      "resources": {
+        "params": 700,
+        "forward_macs_approx": 29424,
+        "roll_buffer_bytes_fp32": 768,
+        "hidden_bytes_fp32": 48,
+        "training_context_periods": 48,
+        "inference_method": "recompute exact finite-context encoder"
+      },
+      "impact": {
+        "max_clearing_residual": 8.881784197001252e-16,
+        "min_delta": 0.7948426033621586,
+        "updated_beta_over_gamma_v": 0.47859594615441975,
+        "fresh_precision_E1": null,
+        "decoder": {
+          "OOS_public_MSE": 0.20161068069656218,
+          "OOS_public_plus_price_MSE": 0.19400673312142416,
+          "OOS_linear_decoder_gain": 0.03771599574420603,
+          "gaussian_log_MSE_proxy": 0.019222824583480964,
+          "evaluation_n": 2374,
+          "not_exact_conditional_MI": true
+        }
+      }
+    }
+  ]
+}
