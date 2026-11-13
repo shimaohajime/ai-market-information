@@ -16,6 +16,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [
+    "../LICENSE",
     "README.md",
     "CITATION.cff",
     "docs/DATA_AVAILABILITY.md",
@@ -91,7 +92,7 @@ def main() -> None:
             issues.append((str(relative), "excluded binary extension"))
         if any(part in {"raw", "private", "__pycache__"} for part in relative.parts):
             issues.append((str(relative), "private, raw, or cache directory"))
-        if path.suffix.lower() in TEXT_EXTENSIONS or path.name == ".gitignore":
+        if path.suffix.lower() in TEXT_EXTENSIONS or path.name in {".gitignore", "LICENSE"}:
             text = path.read_text(encoding="utf-8", errors="replace")
             for label, pattern in LEAK_PATTERNS.items():
                 if pattern.search(text):

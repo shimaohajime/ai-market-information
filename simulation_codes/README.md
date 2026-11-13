@@ -49,4 +49,4 @@ Finite neural-market experiments may require the experiment-specific dependencie
 
 ## Citation and license
 
-Citation metadata are in [`CITATION.cff`](CITATION.cff). This package does not yet have an explicit open-source license. Select one only after confirming rights for all included and vendored code, and before making the repository public.
+Citation metadata are in [`CITATION.cff`](CITATION.cff). The package is distributed under the repository-root [MIT License](../LICENSE). Licensed financial data, API outputs, and other excluded inputs remain subject to their own terms.
