@@ -22,6 +22,8 @@ The directory contains executable source, configurations, tests, experiment-spec
 | `results/aggregate` | Small aggregate synthetic summaries used for checking and plotting |
 | `tools` | Repository validation and simulation-figure utilities |
 
+The `tools/si_figures/` directory retains the scripts used to construct and audit supplementary figures. Those scripts document the calculations but require archived path-level inputs that are deliberately excluded from this source-and-aggregate-results release; see its README before using them.
+
 ## Quick start
 
 Use the dependency file and release note in the specific experiment directory. The Gaussian population benchmark is the lightest entry point:

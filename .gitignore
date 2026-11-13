@@ -55,6 +55,7 @@ openai_api[.]txt
 # Keep publication source, duplicated empirical code, and assembly notes local.
 /simulation_codes/paper/
 /simulation_codes/empirical/
+/simulation_codes/.github/
 /simulation_codes/docs/ASSEMBLY_AUDIT.md
 /simulation_codes/docs/EMPIRICAL_CODE_HANDOFF.md
 /simulation_codes/docs/GITHUB_SETUP.md

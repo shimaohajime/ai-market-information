@@ -30,6 +30,9 @@ data/private/
 **/banks.csv
 **/results/paths/
 **/generated/
+tools/si_figures/recovered/
+tools/si_figures/data/
+tools/si_figures/figures/
 
 # Python and build outputs
 __pycache__/
